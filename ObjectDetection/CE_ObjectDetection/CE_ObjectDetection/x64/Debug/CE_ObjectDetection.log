@@ -1,0 +1,26 @@
+﻿生成启动时间为 2014/12/19 19:10:53。
+     1>项目“D:\c_lab\ObjectDetection\CE_ObjectDetection\CE_ObjectDetection\CE_ObjectDetection.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         E:\VS2012\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"x64\Debug\CE_ObjectDetection.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt CE_ObjectDetection.cpp
+         CE_ObjectDetection.cpp
+     1>E:\opencv3.0\build\include\opencv2/core/mat.hpp(1413): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>d:\c_lab\objectdetection\ce_objectdetection\ce_objectdetection\bowVocabulary.h(103): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+     1>CE_ObjectDetection.cpp(148): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>CE_ObjectDetection.cpp(284): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>CE_ObjectDetection.cpp(285): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>CE_ObjectDetection.cpp(306): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+     1>CE_ObjectDetection.cpp(522): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+     1>CE_ObjectDetection.cpp(528): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+       Link:
+         E:\VS2012\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\c_lab\ObjectDetection\CE_ObjectDetection\x64\Debug\CE_ObjectDetection.exe" /INCREMENTAL /NOLOGO opencv_ts300d.lib opencv_world300d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\c_lab\ObjectDetection\CE_ObjectDetection\x64\Debug\CE_ObjectDetection.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\c_lab\ObjectDetection\CE_ObjectDetection\x64\Debug\CE_ObjectDetection.lib" /MACHINE:X64 x64\Debug\bowVocabulary.obj
+         x64\Debug\CE_ObjectDetection.obj
+         x64\Debug\Config.obj
+         x64\Debug\DDFile.obj
+         x64\Debug\ImgRead.obj
+         x64\Debug\stdafx.obj
+         CE_ObjectDetection.vcxproj -> D:\c_lab\ObjectDetection\CE_ObjectDetection\x64\Debug\CE_ObjectDetection.exe
+     1>已完成生成项目“D:\c_lab\ObjectDetection\CE_ObjectDetection\CE_ObjectDetection\CE_ObjectDetection.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:02.32

@@ -1,0 +1,267 @@
+Finding discriptors...
+Finished! 27 KeyPoints finded.
+Matching begin...
+Matched ID: 0, Matched keyID: 522-------------
+tf_R = 1
+idf = 5.07725
+tf_e = 3
+weight = 8.59284
+weight = 8.59284
+weight = 8.59284
+Score of this point: 1.14955
+Matched ID: 1, Matched keyID: 928-------------
+tf_R = 1
+idf = 4.22996
+tf_e = 7
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+Score of this point: -0.211654
+Matched ID: 2, Matched keyID: 917-------------
+tf_R = 1
+idf = 4.38411
+tf_e = 6
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+Score of this point: 4.90032
+Matched ID: 3, Matched keyID: 664-------------
+tf_R = 1
+idf = 5.07725
+tf_e = 3
+weight = 8.59284
+weight = 8.59284
+weight = 8.59284
+Score of this point: 1.25546
+Matched ID: 4, Matched keyID: 901-------------
+tf_R = 1
+idf = 4.38411
+tf_e = 6
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+Score of this point: 4.9824
+Matched ID: 5, Matched keyID: 489-------------
+tf_R = 1
+idf = 6.17587
+tf_e = 1
+weight = 38.1413
+Score of this point: -5.96046e-008
+Matched ID: 6, Matched keyID: 967-------------
+tf_R = 1
+idf = 4.56643
+tf_e = 5
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+Score of this point: -0.204728
+Matched ID: 7, Matched keyID: 586-------------
+tf_R = 1
+idf = 4.78957
+tf_e = 4
+weight = 5.735
+weight = 5.735
+weight = 5.735
+weight = 5.735
+Score of this point: -0.864841
+Matched ID: 8, Matched keyID: 183-------------
+tf_R = 1
+idf = 3.87328
+tf_e = 10
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+weight = 1.50023
+Score of this point: 8.8323
+Matched ID: 9, Matched keyID: 748-------------
+tf_R = 1
+idf = 3.97864
+tf_e = 9
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+weight = 1.75884
+Score of this point: 0.951762
+Matched ID: 10, Matched keyID: 324-------------
+tf_R = 1
+idf = 4.78957
+tf_e = 4
+weight = 5.735
+weight = 5.735
+weight = 5.735
+weight = 5.735
+Score of this point: 2.78411
+Matched ID: 11, Matched keyID: 654-------------
+tf_R = 1
+idf = 4.38411
+tf_e = 6
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+Score of this point: 4.84378
+Matched ID: 12, Matched keyID: 120-------------
+tf_R = 1
+idf = 4.56643
+tf_e = 5
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+Score of this point: 3.9907
+Matched ID: 13, Matched keyID: 753-------------
+tf_R = 1
+idf = 5.07725
+tf_e = 3
+weight = 8.59284
+weight = 8.59284
+weight = 8.59284
+Score of this point: -0.67829
+Matched ID: 14, Matched keyID: 237-------------
+tf_R = 1
+idf = 4.56643
+tf_e = 5
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+Score of this point: 2.95557
+Matched ID: 15, Matched keyID: 659-------------
+tf_R = 1
+idf = 5.48272
+tf_e = 2
+weight = 15.0301
+weight = 15.0301
+Score of this point: 0.965932
+Matched ID: 16, Matched keyID: 434-------------
+tf_R = 1
+idf = 4.22996
+tf_e = 7
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+Score of this point: 3.47253
+Matched ID: 17, Matched keyID: 585-------------
+tf_R = 1
+idf = 4.56643
+tf_e = 5
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+weight = 4.17045
+Score of this point: -0.590665
+Matched ID: 18, Matched keyID: 791-------------
+tf_R = 1
+idf = 4.78957
+tf_e = 4
+weight = 5.735
+weight = 5.735
+weight = 5.735
+weight = 5.735
+Score of this point: 2.98388
+Matched ID: 19, Matched keyID: 720-------------
+tf_R = 1
+idf = 5.07725
+tf_e = 3
+weight = 8.59284
+weight = 8.59284
+weight = 8.59284
+Score of this point: 1.10727
+Matched ID: 20, Matched keyID: 900-------------
+tf_R = 1
+idf = 4.38411
+tf_e = 6
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+Score of this point: 1.46177
+Matched ID: 21, Matched keyID: 501-------------
+tf_R = 1
+idf = 4.22996
+tf_e = 7
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+weight = 2.55608
+Score of this point: 5.90525
+Matched ID: 22, Matched keyID: 794-------------
+tf_R = 1
+idf = 5.48272
+tf_e = 2
+weight = 15.0301
+weight = 15.0301
+Score of this point: 0.999195
+Matched ID: 23, Matched keyID: 10-------------
+tf_R = 1
+idf = 5.48272
+tf_e = 2
+weight = 15.0301
+weight = 15.0301
+Score of this point: -0.744383
+Matched ID: 24, Matched keyID: 761-------------
+tf_R = 1
+idf = 4.78957
+tf_e = 4
+weight = 5.735
+weight = 5.735
+weight = 5.735
+weight = 5.735
+Score of this point: 2.20044
+Matched ID: 25, Matched keyID: 647-------------
+tf_R = 1
+idf = 4.38411
+tf_e = 6
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+weight = 3.2034
+Score of this point: 0.737268
+Matched ID: 26, Matched keyID: 630-------------
+tf_R = 1
+idf = 5.07725
+tf_e = 3
+weight = 8.59284
+weight = 8.59284
+weight = 8.59284
+Score of this point: 1.86941
+Matching End
