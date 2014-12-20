@@ -10,6 +10,8 @@
 #include <highgui.hpp>
 #include <features2d.hpp>
 #include "imgproc.hpp"
+#include <fstream>
+#include <sstream>
 
 using namespace cv;
 using namespace std;
@@ -100,10 +102,11 @@ public:
 	int getImageIDByIndex( int index ){ return sequentialFile.imageID[index]; }  // Get target imageID by index like: 0,1,2,3 ...
 	int getIndexByImageID( int imageID ); // Use this to get a index
 	void getExemplarKeyPoints( int index, vector<Point2f> &keypoints ){ keypoints = sequentialFile.keywords[index].queryMatched; }
-	int getNumOfImages( ){ return sequentialFile.imageID.size(); } 
+	int getNumOfImages( ){ return (int)sequentialFile.imageID.size(); } 
 		// In Inverted File
 	int getTFByIndex( size_t index, TeamFrequency &TF );
 	int getPositionByIndex( size_t index, keyPositions &TF );
+	int getPositionByIndex( int index, vector<Point2f> &Pos, int &n );
 protected:                  
 	Mat Vocabulary;   
 	// Using AKAZE feature
@@ -116,6 +119,21 @@ protected:
 	InvertedFile invertedFile;
 	// num
 	int num_of_examplers;
-};                                                                               
+};        
+
+// Score, including three parts
+class VotingScore{
+public:
+	int getScore( BowMatchResult result, BowVocabulary vocabulary );
+	int saveScore( BowVocParams parms, BowMatchResult result );
+	void drawVoting( Mat &VotingMap, BowMatchResult result );
+private:
+	vector<int> n;    // num of voting points come from each keypoints
+	vector<float>O;    // Orignal score of each keypoints
+	vector<float>S;    // divergency score, higher if transform vectors appear closly
+	vector<Point2f>VotingPoints;    // The position of each voting points
+	vector<float>FinalScore;    // Final score of each voting points
+	float maxS;
+};
 
 #endif

@@ -222,6 +222,24 @@ int DDFileTest( ){
 	return 1;
 }
 
+int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, BowVocParams parms ){
+	CV_Assert( imgData.size().height!=0 );
+	if( bowVocab.IsMatcherTrained() ){
+		BowMatchResult result;
+		cout << "Finding discriptors..." << endl;
+		bowVocab.quantizing( imgData, result );
+		cout << "Finished! " << result.keyID.size() << " KeyPoints finded." << endl;
+		VotingScore Score;
+		cout << "Caculating scores" << endl;
+		Score.getScore( result, bowVocab );
+		Score.saveScore( parms, result );
+		Score.drawVoting( VotingMap, result );
+	}
+
+	
+	return 1;
+}
+
 int match_a_new_image( Mat &imgData, Mat &VotingMap, Mat &HeatMap, BowVocabulary &bowVocab, BowVocParams parms ){
 	// This function is used to match a new input image with the vocabulary
 	// Just for shown
@@ -281,8 +299,10 @@ int match_a_new_image( Mat &imgData, Mat &VotingMap, Mat &HeatMap, BowVocabulary
 				int posI = 0;
 				for( int imageI=0; imageI<TF.imageID.size(); imageI++ ){  // For each image
 					for( int posIt=0; posIt<TF.TF[imageI]; posI++, posIt++ ){  // For each keypoint in image[imageI]
-						float x_transform = 1.39548*(targetSize.width/2 - Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
-						float y_transform = 1.39548*(targetSize.height/2 - Pos.x_y[posI].y);
+						//float x_transform = 1.39548*(targetSize.width/2 - Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
+						//float y_transform = 1.39548*(targetSize.height/2 - Pos.x_y[posI].y);
+						float x_transform = 1.39548*(Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
+						float y_transform = 1.39548*(Pos.x_y[posI].y);
 						//float x_transform = (targetSize.width/2 - Pos.x_y[posI].x);
 						//float y_transform = (targetSize.height/2 - Pos.x_y[posI].y);
 
@@ -601,32 +621,33 @@ int main()
 	Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
 	Mat BoxMap; target_img.copyTo( BoxMap );
 	VotingMap = 0.3 * VotingMap; // For a clearly shown
-	if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
+	//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
+	if( !match_a_new_image( target_img, VotingMap, bowVocab, params ) )
 		cout << "The Matcher need be trained first!" << endl;
 	imshow( "targetImage", target_img );
 	resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
 	imshow( "VotingMap", VotingMap );
 
 	// heatMap
-	vector<Point> faceCentral;
+	//vector<Point> faceCentral;
 	
-	double minV, maxV;
+	/*double minV, maxV;
 	Point minP, maxP;
 	minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
 	float alpha = 255 / (float)(maxV-minV);
 	VotingHeatMap = alpha * VotingHeatMap;
-	imshow( "HeatMap", VotingHeatMap );
+	imshow( "HeatMap", VotingHeatMap );*/
 
-	get_heatMap( VotingHeatMap, faceCentral );
+	/*get_heatMap( VotingHeatMap, faceCentral );
 	minP, maxP;
 	minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
 	alpha = 255 / (float)(maxV-minV);
 	VotingHeatMap = alpha * VotingHeatMap;
-	imshow( "HeatMap2", VotingHeatMap );
+	imshow( "HeatMap2", VotingHeatMap );*/
 
 	// draw box
-	circle(BoxMap,faceCentral[0],40,Scalar(0,255,0));
-	imshow( "BoxMap", BoxMap );
+	//circle(BoxMap,faceCentral[0],40,Scalar(0,255,0));
+	//imshow( "BoxMap", BoxMap );
 
 	RoundShow( imgData, show_start, show_size, bowVocab );
 	//RoundShow( imgData, show_start, show_size);

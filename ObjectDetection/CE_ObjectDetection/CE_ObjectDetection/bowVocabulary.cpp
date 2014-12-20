@@ -1,11 +1,113 @@
 // bowVocabulary.cpp
 #include "stdafx.h"
 #include "bowVocabulary.h"
+#
 
 #define DEBUG_DESC_PROGRESS
 
+#define CE_VOTING_ORG_SCORE 4
+#define CE_CENTERAL_POS_x 60
+#define CE_CENTERAL_POS_y 60
+
 using namespace cv;
 using namespace std;
+
+
+// Score
+void VotingScore::drawVoting( Mat &VotingMap, BowMatchResult result ){
+	Rect imgBox( 0, 0, VotingMap.cols, VotingMap.rows );
+	int vot_i=0;
+	float T = 0.5*maxS;
+	for( int keyI=0; keyI<result.keyID.size(); keyI++ ){
+		if( S[keyI] > T ){
+			Point2f key_point = result.queryMatched[keyI];
+			stringstream ss;
+			ss<<keyI; 
+			string si = ss.str();
+			putText( VotingMap, si, key_point, FONT_HERSHEY_COMPLEX, 0.5, Scalar(0, 255, 255) );
+			circle(VotingMap,key_point,5,Scalar(255,0,0));
+			for( int i=0; i<n[keyI]; i++ ){
+				Point2f v_p = VotingPoints[vot_i] + key_point;
+				if( v_p.inside( imgBox ) ){
+					line( VotingMap, key_point, v_p, Scalar(255,150,255) );
+					circle(VotingMap,v_p,1,Scalar(0,0,255));
+				}
+				vot_i++;
+			}
+		}
+		else{
+			vot_i += n[keyI];
+		}
+	}
+}
+
+int VotingScore::saveScore( BowVocParams parms, BowMatchResult result ){
+	cout << "Saving Score" << endl;
+	// Open log file
+	ofstream f_log(  parms.OutPath+"Matching.log" );
+	if( !f_log.is_open() ){
+		cout << "Warning: Can't open log file" << endl;
+		return 0;
+	}
+	int vot_i=0;
+	for( int keyI=0; keyI<n.size(); keyI++ ){
+		f_log << "Matched ID: " << keyI << "-------------" << endl;
+		f_log << "n: " << n[keyI]<< endl;
+		f_log << "O: " << O[keyI]<< endl;
+		f_log << "S: " << S[keyI]<< endl;
+		Point2f key_point = result.queryMatched[keyI];
+		for( int i=0; i<n[keyI]; i++ ){
+				Point2f v_p = VotingPoints[vot_i] + key_point;
+				f_log << "Voting Point["<< i << "]: ( " << v_p.x << ", " << v_p.y << " )" << endl;
+				vot_i++;
+		}
+	}
+	f_log.close();
+	return 1;
+}
+
+int VotingScore::getScore( BowMatchResult result, BowVocabulary vocabulary ){
+	// get Score of each points in result, for perfomance, this function
+	// dosen't check anything
+	maxS = 0;
+	vector<int> S_fix;
+	for( int keyI=0; keyI<result.keyID.size(); keyI++ ){ // For each keypoints
+		int keyID = result.keyID[keyI];
+		// get the voting point relate to the keypoint
+		int voting_n, S_fix_n;
+		if( vocabulary.getPositionByIndex( keyID, VotingPoints, voting_n ) ){
+			n.push_back( voting_n );
+			O.push_back( CE_VOTING_ORG_SCORE );
+			// caculate transform vector
+			Point2f key_point = result.queryMatched[keyI];
+			Point2f V_t = Point2f(0.0, 0.0);
+			int end = VotingPoints.size()-1;
+			S_fix_n=0;
+			for( int i=0; i<voting_n; i++ ){  // from the back
+				Point2f V_i = VotingPoints[end--];
+				float length = sqrtf( V_i.x * V_i.x + V_i.y * V_i.y );
+				if( length<=3 ){
+					 S_fix_n++;
+				}
+				V_i = V_i / length;
+				V_t += V_i;
+			}
+			if( S_fix_n>( voting_n>>2 ) ) // fix those points whose transform is too short
+				S_fix.push_back( keyI );
+			float _V_t = V_t.x * V_t.x + V_t.y * V_t.y;
+			_V_t = _V_t/voting_n - 1;
+			maxS = ( _V_t>maxS ) ? _V_t : maxS;
+			S.push_back( _V_t );
+		}
+		else
+			return 0;
+	}
+	// fix
+	for( int i=0; i<S_fix.size(); i++ )
+		S[S_fix[i]] = maxS;
+
+	return 1;
+}
 
 // Search
 int BowVocabulary::getIndexByImageID( int imageID ){
@@ -48,6 +150,18 @@ int BowVocabulary::getTFByIndex( size_t index, TeamFrequency &TF ){
 int BowVocabulary::getPositionByIndex( size_t index, keyPositions &Pos ){
 	if( index<Vocabulary.rows ){
 		Pos = invertedFile.positions[index];
+	}
+	else
+		return 0;
+	return 1;
+}
+
+int BowVocabulary::getPositionByIndex( int index, vector<Point2f> &Pos, int &n ){
+	if( index<Vocabulary.rows ){
+		//Pos = invertedFile.positions[index];
+		auto point = invertedFile.positions[index].x_y;
+		Pos.insert( Pos.end(), point.begin(), point.end() );
+		n = point.size();
 	}
 	else
 		return 0;
@@ -213,7 +327,7 @@ int BowVocabulary::seqFile2invFile( ){
 			int num_of_matched = 0;
 			for( int i=0; i<imageKey->keyID.size(); i++ ){
 				if( keyI == imageKey->keyID[i] ){ // If matched!!
-					posKey->x_y.push_back( imageKey->queryMatched[i] ); // save the position
+					posKey->x_y.push_back( Point2f( CE_CENTERAL_POS_x,  CE_CENTERAL_POS_y ) - imageKey->queryMatched[i] ); // save the position
 					num_of_matched++;
 				}
 			}
@@ -460,6 +574,7 @@ int BowVocabulary::generateVocabulary( vector<Mat> &imgData, BowVocParams params
 	//Ptr<ORB> akazeFeature = ORB::create( ); // No param by now
 	//cout << akazeFeature->descriptorType() << endl;
 	//CV_Assert( akazeFeature->descriptorType() == CV_32FC1 );
+	CV_Assert( params.targetSize.width==CE_CENTERAL_POS_x && params.targetSize.height==CE_CENTERAL_POS_y  );
 	const int elemSize = CV_ELEM_SIZE( akazeFeature->descriptorType() );
 	const int descByteSize = akazeFeature->descriptorSize() * elemSize;
     const int bytesInMB = 1048576; // 1MB

@@ -1,267 +1,240 @@
-Finding discriptors...
-Finished! 27 KeyPoints finded.
-Matching begin...
-Matched ID: 0, Matched keyID: 522-------------
-tf_R = 1
-idf = 5.07725
-tf_e = 3
-weight = 8.59284
-weight = 8.59284
-weight = 8.59284
-Score of this point: 1.14955
-Matched ID: 1, Matched keyID: 928-------------
-tf_R = 1
-idf = 4.22996
-tf_e = 7
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-Score of this point: -0.211654
-Matched ID: 2, Matched keyID: 917-------------
-tf_R = 1
-idf = 4.38411
-tf_e = 6
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-Score of this point: 4.90032
-Matched ID: 3, Matched keyID: 664-------------
-tf_R = 1
-idf = 5.07725
-tf_e = 3
-weight = 8.59284
-weight = 8.59284
-weight = 8.59284
-Score of this point: 1.25546
-Matched ID: 4, Matched keyID: 901-------------
-tf_R = 1
-idf = 4.38411
-tf_e = 6
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-Score of this point: 4.9824
-Matched ID: 5, Matched keyID: 489-------------
-tf_R = 1
-idf = 6.17587
-tf_e = 1
-weight = 38.1413
-Score of this point: -5.96046e-008
-Matched ID: 6, Matched keyID: 967-------------
-tf_R = 1
-idf = 4.56643
-tf_e = 5
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-Score of this point: -0.204728
-Matched ID: 7, Matched keyID: 586-------------
-tf_R = 1
-idf = 4.78957
-tf_e = 4
-weight = 5.735
-weight = 5.735
-weight = 5.735
-weight = 5.735
-Score of this point: -0.864841
-Matched ID: 8, Matched keyID: 183-------------
-tf_R = 1
-idf = 3.87328
-tf_e = 10
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-weight = 1.50023
-Score of this point: 8.8323
-Matched ID: 9, Matched keyID: 748-------------
-tf_R = 1
-idf = 3.97864
-tf_e = 9
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-weight = 1.75884
-Score of this point: 0.951762
-Matched ID: 10, Matched keyID: 324-------------
-tf_R = 1
-idf = 4.78957
-tf_e = 4
-weight = 5.735
-weight = 5.735
-weight = 5.735
-weight = 5.735
-Score of this point: 2.78411
-Matched ID: 11, Matched keyID: 654-------------
-tf_R = 1
-idf = 4.38411
-tf_e = 6
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-Score of this point: 4.84378
-Matched ID: 12, Matched keyID: 120-------------
-tf_R = 1
-idf = 4.56643
-tf_e = 5
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-Score of this point: 3.9907
-Matched ID: 13, Matched keyID: 753-------------
-tf_R = 1
-idf = 5.07725
-tf_e = 3
-weight = 8.59284
-weight = 8.59284
-weight = 8.59284
-Score of this point: -0.67829
-Matched ID: 14, Matched keyID: 237-------------
-tf_R = 1
-idf = 4.56643
-tf_e = 5
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-Score of this point: 2.95557
-Matched ID: 15, Matched keyID: 659-------------
-tf_R = 1
-idf = 5.48272
-tf_e = 2
-weight = 15.0301
-weight = 15.0301
-Score of this point: 0.965932
-Matched ID: 16, Matched keyID: 434-------------
-tf_R = 1
-idf = 4.22996
-tf_e = 7
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-Score of this point: 3.47253
-Matched ID: 17, Matched keyID: 585-------------
-tf_R = 1
-idf = 4.56643
-tf_e = 5
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-weight = 4.17045
-Score of this point: -0.590665
-Matched ID: 18, Matched keyID: 791-------------
-tf_R = 1
-idf = 4.78957
-tf_e = 4
-weight = 5.735
-weight = 5.735
-weight = 5.735
-weight = 5.735
-Score of this point: 2.98388
-Matched ID: 19, Matched keyID: 720-------------
-tf_R = 1
-idf = 5.07725
-tf_e = 3
-weight = 8.59284
-weight = 8.59284
-weight = 8.59284
-Score of this point: 1.10727
-Matched ID: 20, Matched keyID: 900-------------
-tf_R = 1
-idf = 4.38411
-tf_e = 6
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-Score of this point: 1.46177
-Matched ID: 21, Matched keyID: 501-------------
-tf_R = 1
-idf = 4.22996
-tf_e = 7
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-weight = 2.55608
-Score of this point: 5.90525
-Matched ID: 22, Matched keyID: 794-------------
-tf_R = 1
-idf = 5.48272
-tf_e = 2
-weight = 15.0301
-weight = 15.0301
-Score of this point: 0.999195
-Matched ID: 23, Matched keyID: 10-------------
-tf_R = 1
-idf = 5.48272
-tf_e = 2
-weight = 15.0301
-weight = 15.0301
-Score of this point: -0.744383
-Matched ID: 24, Matched keyID: 761-------------
-tf_R = 1
-idf = 4.78957
-tf_e = 4
-weight = 5.735
-weight = 5.735
-weight = 5.735
-weight = 5.735
-Score of this point: 2.20044
-Matched ID: 25, Matched keyID: 647-------------
-tf_R = 1
-idf = 4.38411
-tf_e = 6
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-weight = 3.2034
-Score of this point: 0.737268
-Matched ID: 26, Matched keyID: 630-------------
-tf_R = 1
-idf = 5.07725
-tf_e = 3
-weight = 8.59284
-weight = 8.59284
-weight = 8.59284
-Score of this point: 1.86941
-Matching End
+Matched ID: 0-------------
+n: 3
+O: 4
+S: 1.14955
+Voting Point[0]: ( 98.6337, 88.1255 )
+Voting Point[1]: ( 96.1368, 91.0064 )
+Voting Point[2]: ( 84.103, 65.318 )
+Matched ID: 1-------------
+n: 7
+O: 4
+S: -0.211654
+Voting Point[0]: ( 150.375, 75.8614 )
+Voting Point[1]: ( 123.971, 79.0715 )
+Voting Point[2]: ( 123.277, 77.445 )
+Voting Point[3]: ( 123.38, 79.0322 )
+Voting Point[4]: ( 143.663, 31.5362 )
+Voting Point[5]: ( 160.004, 78.1528 )
+Voting Point[6]: ( 117.94, 40.1407 )
+Matched ID: 2-------------
+n: 6
+O: 4
+S: 4.79568
+Voting Point[0]: ( 433.616, 119.309 )
+Voting Point[1]: ( 436.819, 125.544 )
+Voting Point[2]: ( 428.555, 131.059 )
+Voting Point[3]: ( 429.204, 128.243 )
+Voting Point[4]: ( 432.272, 130.556 )
+Voting Point[5]: ( 429.572, 127.749 )
+Matched ID: 3-------------
+n: 3
+O: 4
+S: 0.760614
+Voting Point[0]: ( 276.568, 146.177 )
+Voting Point[1]: ( 223.129, 157.714 )
+Voting Point[2]: ( 250.347, 134.299 )
+Matched ID: 4-------------
+n: 8
+O: 4
+S: 5.78559
+Voting Point[0]: ( 319.126, 142.039 )
+Voting Point[1]: ( 312.102, 154.547 )
+Voting Point[2]: ( 344.18, 152.045 )
+Voting Point[3]: ( 343.749, 150.841 )
+Voting Point[4]: ( 341.877, 144.826 )
+Voting Point[5]: ( 343.725, 144.041 )
+Voting Point[6]: ( 340.833, 146.635 )
+Voting Point[7]: ( 342.625, 145.455 )
+Matched ID: 5-------------
+n: 1
+O: 4
+S: -5.96046e-008
+Voting Point[0]: ( 314.513, 187.207 )
+Matched ID: 6-------------
+n: 4
+O: 4
+S: 0.284191
+Voting Point[0]: ( 279.395, 171.693 )
+Voting Point[1]: ( 264.258, 206.603 )
+Voting Point[2]: ( 287.337, 199.227 )
+Voting Point[3]: ( 291.43, 204.031 )
+Matched ID: 7-------------
+n: 4
+O: 4
+S: -0.864841
+Voting Point[0]: ( 217.557, 214.172 )
+Voting Point[1]: ( 217.498, 213.647 )
+Voting Point[2]: ( 270.499, 174.991 )
+Voting Point[3]: ( 274.364, 166.979 )
+Matched ID: 8-------------
+n: 10
+O: 4
+S: 8.8323
+Voting Point[0]: ( 180.407, 236.665 )
+Voting Point[1]: ( 178.765, 233.671 )
+Voting Point[2]: ( 182.745, 237.063 )
+Voting Point[3]: ( 187.981, 231.334 )
+Voting Point[4]: ( 185.774, 232.133 )
+Voting Point[5]: ( 186.368, 233.984 )
+Voting Point[6]: ( 190.209, 238.874 )
+Voting Point[7]: ( 187.897, 236.106 )
+Voting Point[8]: ( 184.76, 238.658 )
+Voting Point[9]: ( 185.62, 235.286 )
+Matched ID: 9-------------
+n: 9
+O: 4
+S: 8.8323
+Voting Point[0]: ( 193.688, 233.19 )
+Voting Point[1]: ( 190.563, 233.527 )
+Voting Point[2]: ( 195.962, 233.436 )
+Voting Point[3]: ( 197.81, 229.928 )
+Voting Point[4]: ( 193.352, 230.421 )
+Voting Point[5]: ( 200.116, 229.368 )
+Voting Point[6]: ( 192.215, 229.32 )
+Voting Point[7]: ( 193.992, 231.711 )
+Voting Point[8]: ( 191.925, 232.232 )
+Matched ID: 10-------------
+n: 4
+O: 4
+S: 2.78411
+Voting Point[0]: ( 194.251, 243.127 )
+Voting Point[1]: ( 191.941, 241.945 )
+Voting Point[2]: ( 195.747, 242.217 )
+Voting Point[3]: ( 184.975, 244.536 )
+Matched ID: 11-------------
+n: 6
+O: 4
+S: 4.84379
+Voting Point[0]: ( 199.441, 217.377 )
+Voting Point[1]: ( 190.912, 219.451 )
+Voting Point[2]: ( 200.804, 220.138 )
+Voting Point[3]: ( 199.063, 219.645 )
+Voting Point[4]: ( 195.402, 220.291 )
+Voting Point[5]: ( 208.46, 217.208 )
+Matched ID: 12-------------
+n: 5
+O: 4
+S: 3.9907
+Voting Point[0]: ( 324.192, 198.895 )
+Voting Point[1]: ( 326.283, 201.542 )
+Voting Point[2]: ( 325.339, 200.645 )
+Voting Point[3]: ( 325.89, 198.27 )
+Voting Point[4]: ( 324.94, 200.052 )
+Matched ID: 13-------------
+n: 3
+O: 4
+S: -0.67829
+Voting Point[0]: ( 192.752, 226.145 )
+Voting Point[1]: ( 207.398, 197.916 )
+Voting Point[2]: ( 195.729, 228.407 )
+Matched ID: 14-------------
+n: 5
+O: 4
+S: 2.95557
+Voting Point[0]: ( 187.74, 236.248 )
+Voting Point[1]: ( 189.355, 236.029 )
+Voting Point[2]: ( 197.835, 238.457 )
+Voting Point[3]: ( 193.156, 241.274 )
+Voting Point[4]: ( 188.141, 238.858 )
+Matched ID: 15-------------
+n: 2
+O: 4
+S: 0.664035
+Voting Point[0]: ( 196.663, 295.839 )
+Voting Point[1]: ( 211.645, 296.776 )
+Matched ID: 16-------------
+n: 7
+O: 4
+S: 3.47253
+Voting Point[0]: ( 382.901, 70.7919 )
+Voting Point[1]: ( 379.948, 71.6401 )
+Voting Point[2]: ( 373.264, 70.3225 )
+Voting Point[3]: ( 379.879, 71.6105 )
+Voting Point[4]: ( 383.602, 67.5345 )
+Voting Point[5]: ( 355.366, 46.7659 )
+Voting Point[6]: ( 390.434, 69.7196 )
+Matched ID: 17-------------
+n: 4
+O: 4
+S: -0.88494
+Voting Point[0]: ( 488.14, 110.553 )
+Voting Point[1]: ( 476.77, 121.912 )
+Voting Point[2]: ( 518.837, 124.809 )
+Voting Point[3]: ( 529.373, 121.543 )
+Matched ID: 18-------------
+n: 6
+O: 4
+S: 4.21047
+Voting Point[0]: ( 186.845, 213.51 )
+Voting Point[1]: ( 182.596, 212.548 )
+Voting Point[2]: ( 189.366, 210.948 )
+Voting Point[3]: ( 190.361, 211.268 )
+Voting Point[4]: ( 196.534, 188.072 )
+Voting Point[5]: ( 192.363, 213.187 )
+Matched ID: 19-------------
+n: 3
+O: 4
+S: 8.8323
+Voting Point[0]: ( 286.996, 217.461 )
+Voting Point[1]: ( 320.494, 205.383 )
+Voting Point[2]: ( 303.149, 190.566 )
+Matched ID: 20-------------
+n: 6
+O: 4
+S: 1.46177
+Voting Point[0]: ( 266.957, 233.732 )
+Voting Point[1]: ( 269.475, 278.316 )
+Voting Point[2]: ( 273.476, 277.362 )
+Voting Point[3]: ( 275.893, 275.358 )
+Voting Point[4]: ( 284.592, 276.092 )
+Voting Point[5]: ( 297.379, 279.597 )
+Matched ID: 21-------------
+n: 7
+O: 4
+S: 5.90525
+Voting Point[0]: ( 198.062, 244.04 )
+Voting Point[1]: ( 195.47, 243.091 )
+Voting Point[2]: ( 193.315, 240.721 )
+Voting Point[3]: ( 195.314, 238.387 )
+Voting Point[4]: ( 190.394, 238.136 )
+Voting Point[5]: ( 192.938, 239.607 )
+Voting Point[6]: ( 190.903, 238.118 )
+Matched ID: 22-------------
+n: 2
+O: 4
+S: 0.999195
+Voting Point[0]: ( 130.563, 283.955 )
+Voting Point[1]: ( 130.971, 284.63 )
+Matched ID: 23-------------
+n: 3
+O: 4
+S: -0.178188
+Voting Point[0]: ( 189.449, 128.822 )
+Voting Point[1]: ( 186.411, 91.7596 )
+Voting Point[2]: ( 215.606, 100.025 )
+Matched ID: 24-------------
+n: 3
+O: 4
+S: 1.99241
+Voting Point[0]: ( 311.808, 189.462 )
+Voting Point[1]: ( 310.541, 191.934 )
+Voting Point[2]: ( 308.44, 189.855 )
+Matched ID: 25-------------
+n: 7
+O: 4
+S: 1.54874
+Voting Point[0]: ( 353.035, 221.606 )
+Voting Point[1]: ( 352.794, 227.875 )
+Voting Point[2]: ( 357.264, 221.754 )
+Voting Point[3]: ( 356.043, 226.6 )
+Voting Point[4]: ( 374.444, 210.277 )
+Voting Point[5]: ( 349.162, 226.137 )
+Voting Point[6]: ( 337.36, 192.056 )
+Matched ID: 26-------------
+n: 4
+O: 4
+S: 2.58293
+Voting Point[0]: ( 203.691, 249.917 )
+Voting Point[1]: ( 192.405, 245.582 )
+Voting Point[2]: ( 211.153, 251.482 )
+Voting Point[3]: ( 195.359, 264.452 )
