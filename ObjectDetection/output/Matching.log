@@ -1,240 +1,181 @@
 Matched ID: 0-------------
-n: 3
+n: 6
 O: 4
-S: 1.14955
-Voting Point[0]: ( 98.6337, 88.1255 )
-Voting Point[1]: ( 96.1368, 91.0064 )
-Voting Point[2]: ( 84.103, 65.318 )
+S: 4.90384
+Voting Point[0]: ( 199.044, 46.051 )
+Voting Point[1]: ( 199.291, 47.4369 )
+Voting Point[2]: ( 191.252, 45.3741 )
+Voting Point[3]: ( 192.564, 44.2333 )
+Voting Point[4]: ( 198.365, 46.9695 )
+Voting Point[5]: ( 202.251, 50.5735 )
+Main Voting Point: ( 197.128, 46.7731 )
 Matched ID: 1-------------
-n: 7
+n: 4
 O: 4
-S: -0.211654
-Voting Point[0]: ( 150.375, 75.8614 )
-Voting Point[1]: ( 123.971, 79.0715 )
-Voting Point[2]: ( 123.277, 77.445 )
-Voting Point[3]: ( 123.38, 79.0322 )
-Voting Point[4]: ( 143.663, 31.5362 )
-Voting Point[5]: ( 160.004, 78.1528 )
-Voting Point[6]: ( 117.94, 40.1407 )
+S: -0.285203
+Voting Point[0]: ( 388.084, 145.581 )
+Voting Point[1]: ( 386.07, 138.858 )
+Voting Point[2]: ( 421.772, 152.108 )
+Voting Point[3]: ( 419.339, 160.222 )
+Main Voting Point: ( 403.816, 149.192 )
 Matched ID: 2-------------
-n: 6
-O: 4
-S: 4.79568
-Voting Point[0]: ( 433.616, 119.309 )
-Voting Point[1]: ( 436.819, 125.544 )
-Voting Point[2]: ( 428.555, 131.059 )
-Voting Point[3]: ( 429.204, 128.243 )
-Voting Point[4]: ( 432.272, 130.556 )
-Voting Point[5]: ( 429.572, 127.749 )
-Matched ID: 3-------------
 n: 3
 O: 4
-S: 0.760614
-Voting Point[0]: ( 276.568, 146.177 )
-Voting Point[1]: ( 223.129, 157.714 )
-Voting Point[2]: ( 250.347, 134.299 )
-Matched ID: 4-------------
-n: 8
-O: 4
-S: 5.78559
-Voting Point[0]: ( 319.126, 142.039 )
-Voting Point[1]: ( 312.102, 154.547 )
-Voting Point[2]: ( 344.18, 152.045 )
-Voting Point[3]: ( 343.749, 150.841 )
-Voting Point[4]: ( 341.877, 144.826 )
-Voting Point[5]: ( 343.725, 144.041 )
-Voting Point[6]: ( 340.833, 146.635 )
-Voting Point[7]: ( 342.625, 145.455 )
-Matched ID: 5-------------
-n: 1
-O: 4
-S: -5.96046e-008
-Voting Point[0]: ( 314.513, 187.207 )
-Matched ID: 6-------------
-n: 4
-O: 4
-S: 0.284191
-Voting Point[0]: ( 279.395, 171.693 )
-Voting Point[1]: ( 264.258, 206.603 )
-Voting Point[2]: ( 287.337, 199.227 )
-Voting Point[3]: ( 291.43, 204.031 )
-Matched ID: 7-------------
-n: 4
-O: 4
-S: -0.864841
-Voting Point[0]: ( 217.557, 214.172 )
-Voting Point[1]: ( 217.498, 213.647 )
-Voting Point[2]: ( 270.499, 174.991 )
-Voting Point[3]: ( 274.364, 166.979 )
-Matched ID: 8-------------
-n: 10
-O: 4
-S: 8.8323
-Voting Point[0]: ( 180.407, 236.665 )
-Voting Point[1]: ( 178.765, 233.671 )
-Voting Point[2]: ( 182.745, 237.063 )
-Voting Point[3]: ( 187.981, 231.334 )
-Voting Point[4]: ( 185.774, 232.133 )
-Voting Point[5]: ( 186.368, 233.984 )
-Voting Point[6]: ( 190.209, 238.874 )
-Voting Point[7]: ( 187.897, 236.106 )
-Voting Point[8]: ( 184.76, 238.658 )
-Voting Point[9]: ( 185.62, 235.286 )
-Matched ID: 9-------------
-n: 9
-O: 4
-S: 8.8323
-Voting Point[0]: ( 193.688, 233.19 )
-Voting Point[1]: ( 190.563, 233.527 )
-Voting Point[2]: ( 195.962, 233.436 )
-Voting Point[3]: ( 197.81, 229.928 )
-Voting Point[4]: ( 193.352, 230.421 )
-Voting Point[5]: ( 200.116, 229.368 )
-Voting Point[6]: ( 192.215, 229.32 )
-Voting Point[7]: ( 193.992, 231.711 )
-Voting Point[8]: ( 191.925, 232.232 )
-Matched ID: 10-------------
-n: 4
-O: 4
-S: 2.78411
-Voting Point[0]: ( 194.251, 243.127 )
-Voting Point[1]: ( 191.941, 241.945 )
-Voting Point[2]: ( 195.747, 242.217 )
-Voting Point[3]: ( 184.975, 244.536 )
-Matched ID: 11-------------
-n: 6
-O: 4
-S: 4.84379
-Voting Point[0]: ( 199.441, 217.377 )
-Voting Point[1]: ( 190.912, 219.451 )
-Voting Point[2]: ( 200.804, 220.138 )
-Voting Point[3]: ( 199.063, 219.645 )
-Voting Point[4]: ( 195.402, 220.291 )
-Voting Point[5]: ( 208.46, 217.208 )
-Matched ID: 12-------------
+S: -0.498812
+Voting Point[0]: ( 308.505, 181.764 )
+Voting Point[1]: ( 347.843, 141.759 )
+Voting Point[2]: ( 338.585, 148.944 )
+Main Voting Point: ( 331.644, 157.489 )
+Matched ID: 3-------------
 n: 5
 O: 4
-S: 3.9907
-Voting Point[0]: ( 324.192, 198.895 )
-Voting Point[1]: ( 326.283, 201.542 )
-Voting Point[2]: ( 325.339, 200.645 )
-Voting Point[3]: ( 325.89, 198.27 )
-Voting Point[4]: ( 324.94, 200.052 )
+S: 3.9268
+Voting Point[0]: ( 310.633, 190.767 )
+Voting Point[1]: ( 301.505, 189.076 )
+Voting Point[2]: ( 299.116, 186.489 )
+Voting Point[3]: ( 307.893, 185.753 )
+Voting Point[4]: ( 309.67, 190.589 )
+Main Voting Point: ( 305.763, 188.535 )
+Matched ID: 4-------------
+n: 5
+O: 4
+S: -0.658033
+Voting Point[0]: ( 179.078, 142.059 )
+Voting Point[1]: ( 176.057, 140.176 )
+Voting Point[2]: ( 176.519, 139.688 )
+Voting Point[3]: ( 211.421, 191.866 )
+Voting Point[4]: ( 218.387, 197.278 )
+Main Voting Point: ( 192.292, 162.214 )
+Matched ID: 5-------------
+n: 3
+O: 4
+S: 1.99994
+Voting Point[0]: ( 192.621, 185.33 )
+Voting Point[1]: ( 189.956, 183.149 )
+Voting Point[2]: ( 189.908, 182.835 )
+Main Voting Point: ( 190.829, 183.771 )
+Matched ID: 6-------------
+n: 8
+O: 4
+S: 6.85192
+Voting Point[0]: ( 356.726, 281.239 )
+Voting Point[1]: ( 359.304, 281.101 )
+Voting Point[2]: ( 361.021, 281.199 )
+Voting Point[3]: ( 349.658, 278.997 )
+Voting Point[4]: ( 349.72, 276.242 )
+Voting Point[5]: ( 361.511, 281.137 )
+Voting Point[6]: ( 366.706, 279.188 )
+Voting Point[7]: ( 356.794, 280.75 )
+Main Voting Point: ( 357.68, 279.982 )
+Matched ID: 7-------------
+n: 6
+O: 4
+S: 4.88377
+Voting Point[0]: ( 303.558, 191.453 )
+Voting Point[1]: ( 296.618, 190.618 )
+Voting Point[2]: ( 300.836, 186.49 )
+Voting Point[3]: ( 301.662, 196.845 )
+Voting Point[4]: ( 300.848, 197.29 )
+Voting Point[5]: ( 306.389, 196.686 )
+Main Voting Point: ( 301.652, 193.23 )
+Matched ID: 8-------------
+n: 6
+O: 4
+S: 3.9043
+Voting Point[0]: ( 292.126, 126.322 )
+Voting Point[1]: ( 301.367, 146.575 )
+Voting Point[2]: ( 291.304, 146.646 )
+Voting Point[3]: ( 287.951, 128.461 )
+Voting Point[4]: ( 289.399, 127.873 )
+Voting Point[5]: ( 292.223, 128.988 )
+Main Voting Point: ( 292.395, 134.144 )
+Matched ID: 9-------------
+n: 3
+O: 4
+S: 1.95528
+Voting Point[0]: ( 301.076, 188.181 )
+Voting Point[1]: ( 297.177, 187.643 )
+Voting Point[2]: ( 305.962, 187.771 )
+Main Voting Point: ( 301.405, 187.865 )
+Matched ID: 10-------------
+n: 6
+O: 4
+S: 0.545917
+Voting Point[0]: ( 346.88, 172.178 )
+Voting Point[1]: ( 360.039, 154.77 )
+Voting Point[2]: ( 363.059, 195.982 )
+Voting Point[3]: ( 365.208, 194.663 )
+Voting Point[4]: ( 373.771, 195.913 )
+Voting Point[5]: ( 386.579, 199.115 )
+Main Voting Point: ( 365.923, 185.437 )
+Matched ID: 11-------------
+n: 7
+O: 4
+S: 5.79101
+Voting Point[0]: ( 305.699, 193.88 )
+Voting Point[1]: ( 306.172, 192.188 )
+Voting Point[2]: ( 302.283, 195.177 )
+Voting Point[3]: ( 298.536, 195.221 )
+Voting Point[4]: ( 302.928, 189.325 )
+Voting Point[5]: ( 305.175, 194.143 )
+Voting Point[6]: ( 306.806, 193.686 )
+Main Voting Point: ( 303.943, 193.374 )
+Matched ID: 12-------------
+n: 4
+O: 4
+S: 1.29149
+Voting Point[0]: ( 319.99, 171.867 )
+Voting Point[1]: ( 308.872, 196.578 )
+Voting Point[2]: ( 305.053, 198.413 )
+Voting Point[3]: ( 310.296, 206.013 )
+Main Voting Point: ( 311.053, 193.218 )
 Matched ID: 13-------------
 n: 3
 O: 4
-S: -0.67829
-Voting Point[0]: ( 192.752, 226.145 )
-Voting Point[1]: ( 207.398, 197.916 )
-Voting Point[2]: ( 195.729, 228.407 )
+S: 1.99994
+Voting Point[0]: ( 192.175, 186.188 )
+Voting Point[1]: ( 189.51, 184.007 )
+Voting Point[2]: ( 189.462, 183.693 )
+Main Voting Point: ( 190.382, 184.629 )
 Matched ID: 14-------------
 n: 5
 O: 4
-S: 2.95557
-Voting Point[0]: ( 187.74, 236.248 )
-Voting Point[1]: ( 189.355, 236.029 )
-Voting Point[2]: ( 197.835, 238.457 )
-Voting Point[3]: ( 193.156, 241.274 )
-Voting Point[4]: ( 188.141, 238.858 )
+S: -0.658033
+Voting Point[0]: ( 327.63, 202.761 )
+Voting Point[1]: ( 324.609, 200.878 )
+Voting Point[2]: ( 325.072, 200.39 )
+Voting Point[3]: ( 359.974, 252.568 )
+Voting Point[4]: ( 366.939, 257.98 )
+Main Voting Point: ( 340.845, 222.915 )
 Matched ID: 15-------------
-n: 2
+n: 6
 O: 4
-S: 0.664035
-Voting Point[0]: ( 196.663, 295.839 )
-Voting Point[1]: ( 211.645, 296.776 )
+S: 1.64462
+Voting Point[0]: ( 302.24, 216.175 )
+Voting Point[1]: ( 301.205, 217.081 )
+Voting Point[2]: ( 299.386, 215.904 )
+Voting Point[3]: ( 302.754, 213.565 )
+Voting Point[4]: ( 308.081, 225.259 )
+Voting Point[5]: ( 344.071, 237.165 )
+Main Voting Point: ( 309.623, 220.858 )
 Matched ID: 16-------------
-n: 7
+n: 3
 O: 4
-S: 3.47253
-Voting Point[0]: ( 382.901, 70.7919 )
-Voting Point[1]: ( 379.948, 71.6401 )
-Voting Point[2]: ( 373.264, 70.3225 )
-Voting Point[3]: ( 379.879, 71.6105 )
-Voting Point[4]: ( 383.602, 67.5345 )
-Voting Point[5]: ( 355.366, 46.7659 )
-Voting Point[6]: ( 390.434, 69.7196 )
+S: 1.10727
+Voting Point[0]: ( 389.054, 155.61 )
+Voting Point[1]: ( 422.552, 143.532 )
+Voting Point[2]: ( 405.208, 128.715 )
+Main Voting Point: ( 405.605, 142.619 )
 Matched ID: 17-------------
-n: 4
-O: 4
-S: -0.88494
-Voting Point[0]: ( 488.14, 110.553 )
-Voting Point[1]: ( 476.77, 121.912 )
-Voting Point[2]: ( 518.837, 124.809 )
-Voting Point[3]: ( 529.373, 121.543 )
-Matched ID: 18-------------
-n: 6
-O: 4
-S: 4.21047
-Voting Point[0]: ( 186.845, 213.51 )
-Voting Point[1]: ( 182.596, 212.548 )
-Voting Point[2]: ( 189.366, 210.948 )
-Voting Point[3]: ( 190.361, 211.268 )
-Voting Point[4]: ( 196.534, 188.072 )
-Voting Point[5]: ( 192.363, 213.187 )
-Matched ID: 19-------------
 n: 3
 O: 4
-S: 8.8323
-Voting Point[0]: ( 286.996, 217.461 )
-Voting Point[1]: ( 320.494, 205.383 )
-Voting Point[2]: ( 303.149, 190.566 )
-Matched ID: 20-------------
-n: 6
-O: 4
-S: 1.46177
-Voting Point[0]: ( 266.957, 233.732 )
-Voting Point[1]: ( 269.475, 278.316 )
-Voting Point[2]: ( 273.476, 277.362 )
-Voting Point[3]: ( 275.893, 275.358 )
-Voting Point[4]: ( 284.592, 276.092 )
-Voting Point[5]: ( 297.379, 279.597 )
-Matched ID: 21-------------
-n: 7
-O: 4
-S: 5.90525
-Voting Point[0]: ( 198.062, 244.04 )
-Voting Point[1]: ( 195.47, 243.091 )
-Voting Point[2]: ( 193.315, 240.721 )
-Voting Point[3]: ( 195.314, 238.387 )
-Voting Point[4]: ( 190.394, 238.136 )
-Voting Point[5]: ( 192.938, 239.607 )
-Voting Point[6]: ( 190.903, 238.118 )
-Matched ID: 22-------------
-n: 2
-O: 4
-S: 0.999195
-Voting Point[0]: ( 130.563, 283.955 )
-Voting Point[1]: ( 130.971, 284.63 )
-Matched ID: 23-------------
-n: 3
-O: 4
-S: -0.178188
-Voting Point[0]: ( 189.449, 128.822 )
-Voting Point[1]: ( 186.411, 91.7596 )
-Voting Point[2]: ( 215.606, 100.025 )
-Matched ID: 24-------------
-n: 3
-O: 4
-S: 1.99241
-Voting Point[0]: ( 311.808, 189.462 )
-Voting Point[1]: ( 310.541, 191.934 )
-Voting Point[2]: ( 308.44, 189.855 )
-Matched ID: 25-------------
-n: 7
-O: 4
-S: 1.54874
-Voting Point[0]: ( 353.035, 221.606 )
-Voting Point[1]: ( 352.794, 227.875 )
-Voting Point[2]: ( 357.264, 221.754 )
-Voting Point[3]: ( 356.043, 226.6 )
-Voting Point[4]: ( 374.444, 210.277 )
-Voting Point[5]: ( 349.162, 226.137 )
-Voting Point[6]: ( 337.36, 192.056 )
-Matched ID: 26-------------
-n: 4
-O: 4
-S: 2.58293
-Voting Point[0]: ( 203.691, 249.917 )
-Voting Point[1]: ( 192.405, 245.582 )
-Voting Point[2]: ( 211.153, 251.482 )
-Voting Point[3]: ( 195.359, 264.452 )
+S: -0.607898
+Voting Point[0]: ( 337.903, 155.254 )
+Voting Point[1]: ( 342.018, 160.954 )
+Voting Point[2]: ( 300.033, 181.001 )
+Main Voting Point: ( 326.651, 165.736 )
+Centre Points: Total 4 Points.
+Centre[0]: ( 197.128, 46.7731 )
+Centre[1]: ( 303.685, 191.982 )
+Centre[2]: ( 357.68, 279.982 )
+Centre[3]: ( 292.395, 134.144 )

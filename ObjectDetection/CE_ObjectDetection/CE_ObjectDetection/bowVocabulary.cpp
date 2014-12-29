@@ -13,11 +13,55 @@ using namespace cv;
 using namespace std;
 
 
+// Face Center
+void ClustingCenter::get_max_center( float scale, vector<int> &index ){
+	max_num=0;
+	for( int i=0; i<num.size(); i++ ){
+		if( num[i]>max_num )
+			max_num = num[i];
+	}
+	int T_num = int( scale * float(max_num) );
+	for( int i=0; i<num.size(); i++ ){
+		if( num[i]>T_num )
+			index.push_back(i);
+	}
+	return;
+}
+
+int ClustingCenter::check_and_add( Point2f point, int n ){
+	if( center.size()==0 ){
+		center.push_back( point );
+		num.push_back(n);
+	}
+	else{
+		int i;
+		for( i=0; i<center.size(); i++ ){
+			Point2f distance = point - center[i];
+			if( distance.x*distance.x + distance.y*distance.y <= T_distance ){
+				int totalnum = num[i] + n;
+				float scale = float(num[i])/float(totalnum); 
+				//cout << scale << endl;
+				//cout << center[i] << ", " << point << endl;
+				center[i] = center[i] + distance * (1-scale); // shift center point
+				//cout << center[i] << ", " << point << endl;
+				num[i] = totalnum;
+				break;
+			}
+		}
+		if( i==center.size() ){ // if no one matched
+			center.push_back( point );
+			num.push_back(n);
+		}
+	}
+	
+	return 1;
+}
+
 // Score
 void VotingScore::drawVoting( Mat &VotingMap, BowMatchResult result ){
 	Rect imgBox( 0, 0, VotingMap.cols, VotingMap.rows );
 	int vot_i=0;
-	float T = 0.5*maxS;
+	float T = -10;//0.5*maxS;
 	for( int keyI=0; keyI<result.keyID.size(); keyI++ ){
 		if( S[keyI] > T ){
 			Point2f key_point = result.queryMatched[keyI];
@@ -39,6 +83,17 @@ void VotingScore::drawVoting( Mat &VotingMap, BowMatchResult result ){
 			vot_i += n[keyI];
 		}
 	}
+	// centre points
+	for( int i=0; i<CentrePoints.size(); i++ ){
+		circle(VotingMap,CentrePoints[i],7,Scalar(0,255,0));
+	}
+	// face points
+	vector<int> index;
+	Centre.get_max_center( 0.8, index );
+	for( int i=0; i<index.size(); i++ ){
+		circle(VotingMap,CentrePoints[index[i]],80,Scalar(255,0,139));
+	}
+	return;
 }
 
 int VotingScore::saveScore( BowVocParams parms, BowMatchResult result ){
@@ -61,6 +116,11 @@ int VotingScore::saveScore( BowVocParams parms, BowMatchResult result ){
 				f_log << "Voting Point["<< i << "]: ( " << v_p.x << ", " << v_p.y << " )" << endl;
 				vot_i++;
 		}
+		f_log << "Main Voting Point: ( " << main_VotingPoints[keyI].x << ", " << main_VotingPoints[keyI].y << " )" << endl;
+	}
+	f_log << "Centre Points: " << "Total " << CentrePoints.size() << " Points." << endl;
+	for( int i=0; i<CentrePoints.size(); i++ ){
+		f_log << "Centre["<< i << "]: ( " << CentrePoints[i].x << ", " << CentrePoints[i].y << " )" << endl;
 	}
 	f_log.close();
 	return 1;
@@ -69,9 +129,13 @@ int VotingScore::saveScore( BowVocParams parms, BowMatchResult result ){
 int VotingScore::getScore( BowMatchResult result, BowVocabulary vocabulary ){
 	// get Score of each points in result, for perfomance, this function
 	// dosen't check anything
+	T_rate = 0.3;
 	maxS = 0;
 	vector<int> S_fix;
+	//vector<Point2f> main_VotingPoints; // where to store the main voting position of each keypoint
+	main_VotingPoints.resize(result.keyID.size());  // some maybe useless
 	for( int keyI=0; keyI<result.keyID.size(); keyI++ ){ // For each keypoints
+		main_VotingPoints[ keyI ] = Point2f(0,0); // init
 		int keyID = result.keyID[keyI];
 		// get the voting point relate to the keypoint
 		int voting_n, S_fix_n;
@@ -85,6 +149,7 @@ int VotingScore::getScore( BowMatchResult result, BowVocabulary vocabulary ){
 			S_fix_n=0;
 			for( int i=0; i<voting_n; i++ ){  // from the back
 				Point2f V_i = VotingPoints[end--];
+				main_VotingPoints[keyI] += V_i;
 				float length = sqrtf( V_i.x * V_i.x + V_i.y * V_i.y );
 				if( length<=3 ){
 					 S_fix_n++;
@@ -92,7 +157,9 @@ int VotingScore::getScore( BowMatchResult result, BowVocabulary vocabulary ){
 				V_i = V_i / length;
 				V_t += V_i;
 			}
-			if( S_fix_n>( voting_n>>2 ) ) // fix those points whose transform is too short
+			main_VotingPoints[keyI] = main_VotingPoints[keyI] / voting_n;
+			main_VotingPoints[keyI] += key_point;
+			if( S_fix_n>( voting_n>>2 ) && voting_n>=4 ) // fix those points whose transform is too short
 				S_fix.push_back( keyI );
 			float _V_t = V_t.x * V_t.x + V_t.y * V_t.y;
 			_V_t = _V_t/voting_n - 1;
@@ -105,6 +172,19 @@ int VotingScore::getScore( BowMatchResult result, BowVocabulary vocabulary ){
 	// fix
 	for( int i=0; i<S_fix.size(); i++ )
 		S[S_fix[i]] = maxS;
+	// The third part, W
+	    //step 1: finding clusting centre
+	int vot_i=0;
+	float T = T_rate*maxS;
+	for( int keyI=0; keyI<result.keyID.size(); keyI++ ){
+		if( S[keyI] > T ){
+			Centre.check_and_add( main_VotingPoints[keyI], n[keyI] );
+		}
+		else{
+			vot_i += n[keyI];
+		}
+	}
+	Centre.get_center( CentrePoints );
 
 	return 1;
 }

@@ -122,6 +122,19 @@ protected:
 };        
 
 // Score, including three parts
+class ClustingCenter{
+public:
+	ClustingCenter( ) : T_distance( 800.0 ){};
+	int check_and_add( Point2f point, int n );
+	void get_center( vector<Point2f> &c ){ c = center; };
+	void get_max_center( float scale, vector<int> &index );
+private:
+	vector<Point2f> center;
+	vector<int> num; // num of points belong to this center
+	float T_distance;
+	int max_num;
+};
+
 class VotingScore{
 public:
 	int getScore( BowMatchResult result, BowVocabulary vocabulary );
@@ -133,7 +146,18 @@ private:
 	vector<float>S;    // divergency score, higher if transform vectors appear closly
 	vector<Point2f>VotingPoints;    // The position of each voting points
 	vector<float>FinalScore;    // Final score of each voting points
+	vector<Point2f>CentrePoints;
+	ClustingCenter Centre;
 	float maxS;
+	float scare;    // The scope of voting points, each point in this area will be added together to 
+	                // find the central point of target object
+	float T_rate;   // The T of max divergency score, only the one larger than that
+	                //  should be consider as central point
+	Size query_size;    // The size of query image
+
+	vector<Point2f> main_VotingPoints;
+
+	friend class ClustingCenter;
 };
 
 #endif

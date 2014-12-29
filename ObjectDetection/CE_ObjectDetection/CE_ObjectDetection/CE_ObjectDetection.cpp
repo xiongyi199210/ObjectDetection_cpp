@@ -568,9 +568,9 @@ void RoundShow( vector<Mat> &imgData, int show_begin_num, Size2i show_size, BowV
 
 int main()  
 {   
-	// Annotation
-	//unsigned int stopPoint = 34; // normally, it equals to " num of image in output path - num of image deleted "
-	//ManualAnnotation( stopPoint );
+	/*// Annotation
+	unsigned int stopPoint = 488; // normally, it equals to " num of image in output path - num of image deleted "
+	ManualAnnotation( stopPoint );*/
 
 	/*Rect SelectArea = Rect(0,0,0,0);
 	// Loading figure
@@ -615,7 +615,8 @@ int main()
 	CV_Assert( bowVocab.IsLoadCorecct() );
 	// test in target image
 	bowVocab.trainFlaan();
-	Mat target_img = imread( "D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/image_0177.jpg" );
+	Mat target_img = imread( "D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/image_0030.jpg" );
+	//Mat target_img = imread( "E:/database/originalPics/2003/05/03/big/img_559.jpg" );
 	//cout << target_img.size() << endl;
 	Mat VotingMap; target_img.copyTo( VotingMap ); 
 	Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
@@ -631,19 +632,19 @@ int main()
 	// heatMap
 	//vector<Point> faceCentral;
 	
-	/*double minV, maxV;
-	Point minP, maxP;
-	minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
-	float alpha = 255 / (float)(maxV-minV);
-	VotingHeatMap = alpha * VotingHeatMap;
-	imshow( "HeatMap", VotingHeatMap );*/
+	//double minV, maxV;
+	//Point minP, maxP;
+	//minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
+	//float alpha = 255 / (float)(maxV-minV);
+	//VotingHeatMap = alpha * VotingHeatMap;
+	//imshow( "HeatMap", VotingHeatMap );
 
-	/*get_heatMap( VotingHeatMap, faceCentral );
-	minP, maxP;
-	minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
-	alpha = 255 / (float)(maxV-minV);
-	VotingHeatMap = alpha * VotingHeatMap;
-	imshow( "HeatMap2", VotingHeatMap );*/
+	//get_heatMap( VotingHeatMap, faceCentral );
+	//minP, maxP;
+	//minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
+	//alpha = 255 / (float)(maxV-minV);
+	//VotingHeatMap = alpha * VotingHeatMap;
+	//imshow( "HeatMap2", VotingHeatMap );
 
 	// draw box
 	//circle(BoxMap,faceCentral[0],40,Scalar(0,255,0));
