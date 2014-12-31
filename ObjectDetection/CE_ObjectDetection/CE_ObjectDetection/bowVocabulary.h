@@ -78,7 +78,8 @@ public:
 class BowVocabulary{
 public:
 	BowVocabulary() : Vocabulary(Mat::zeros(0,0,CV_32FC1)), akazeFeature(AKAZE::create(5,0,3,0.0003f,4,4,1) ), isMatcherTrained(false) {};
-
+	// Setting
+	void setting( Size2f Size, Point2f center ){ targetSize = Size; center_position = center; return; }
 	// Vocabulary
 	int generateVocabulary( vector<Mat> &imgData, BowVocParams params );
 	bool generateVocabulary( string &path );
@@ -119,6 +120,9 @@ protected:
 	InvertedFile invertedFile;
 	// num
 	int num_of_examplers;
+	// targetSize
+	Size2f targetSize;
+	Point2f center_position;
 };        
 
 // Score, including three parts

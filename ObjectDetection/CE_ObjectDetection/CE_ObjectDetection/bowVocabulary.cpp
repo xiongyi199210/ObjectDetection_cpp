@@ -91,7 +91,7 @@ void VotingScore::drawVoting( Mat &VotingMap, BowMatchResult result ){
 	vector<int> index;
 	Centre.get_max_center( 0.8, index );
 	for( int i=0; i<index.size(); i++ ){
-		circle(VotingMap,CentrePoints[index[i]],80,Scalar(255,0,139));
+		circle(VotingMap,CentrePoints[index[i]],40,Scalar(255,0,139), 5);
 	}
 	return;
 }
@@ -407,7 +407,7 @@ int BowVocabulary::seqFile2invFile( ){
 			int num_of_matched = 0;
 			for( int i=0; i<imageKey->keyID.size(); i++ ){
 				if( keyI == imageKey->keyID[i] ){ // If matched!!
-					posKey->x_y.push_back( Point2f( CE_CENTERAL_POS_x,  CE_CENTERAL_POS_y ) - imageKey->queryMatched[i] ); // save the position
+					posKey->x_y.push_back( center_position - imageKey->queryMatched[i] ); // save the position
 					num_of_matched++;
 				}
 			}
@@ -654,7 +654,7 @@ int BowVocabulary::generateVocabulary( vector<Mat> &imgData, BowVocParams params
 	//Ptr<ORB> akazeFeature = ORB::create( ); // No param by now
 	//cout << akazeFeature->descriptorType() << endl;
 	//CV_Assert( akazeFeature->descriptorType() == CV_32FC1 );
-	CV_Assert( params.targetSize.width==CE_CENTERAL_POS_x && params.targetSize.height==CE_CENTERAL_POS_y  );
+	//CV_Assert( params.targetSize.width==CE_CENTERAL_POS_x && params.targetSize.height==CE_CENTERAL_POS_y  );
 	const int elemSize = CV_ELEM_SIZE( akazeFeature->descriptorType() );
 	const int descByteSize = akazeFeature->descriptorSize() * elemSize;
     const int bytesInMB = 1048576; // 1MB

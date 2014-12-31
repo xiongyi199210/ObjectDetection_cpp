@@ -240,6 +240,42 @@ int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, Bo
 	return 1;
 }
 
+int match_a_set( string path, string basePath, string format, BowVocabulary &bowVocab, BowVocParams parms ){
+	// open ddr file
+	fstream file;
+	file.open( path, ios::in );
+	if(!file){
+		cout<< endl << "Error: Bad path to ddf file." << endl;
+		return -1;
+	}
+	// temp
+	string line;
+	Mat image_org;
+	int n=1;
+	string imName = parms.OutPath + "VotingMap/";
+	while( getline( file, line ) ){
+		string imagepath = basePath + line + format;
+		Mat imgdata = imread( imagepath );
+		Mat VotingMap; imgdata.copyTo( VotingMap ); 
+		//Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
+		//Mat BoxMap; target_img.copyTo( BoxMap );
+		VotingMap = 0.3 * VotingMap; // For a clearly shown
+		//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
+		if( !match_a_new_image( imgdata, VotingMap, bowVocab, parms ) )
+			cout << "The Matcher need be trained first!" << endl;
+		resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
+		// Trans everything to string
+		stringstream ss;
+		ss<<n; n++; 
+		string si = ss.str();
+		string ImgName = imName + si + format;
+		cout << ImgName << endl;
+		if( !imwrite( ImgName, VotingMap ) )
+			cout << "Wrong with saving!" << endl;
+	}
+	return 1;
+}
+
 int match_a_new_image( Mat &imgData, Mat &VotingMap, Mat &HeatMap, BowVocabulary &bowVocab, BowVocParams parms ){
 	// This function is used to match a new input image with the vocabulary
 	// Just for shown
@@ -301,8 +337,10 @@ int match_a_new_image( Mat &imgData, Mat &VotingMap, Mat &HeatMap, BowVocabulary
 					for( int posIt=0; posIt<TF.TF[imageI]; posI++, posIt++ ){  // For each keypoint in image[imageI]
 						//float x_transform = 1.39548*(targetSize.width/2 - Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
 						//float y_transform = 1.39548*(targetSize.height/2 - Pos.x_y[posI].y);
-						float x_transform = 1.39548*(Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
-						float y_transform = 1.39548*(Pos.x_y[posI].y);
+						//float x_transform = 1.39548*(Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
+						//float y_transform = 1.39548*(Pos.x_y[posI].y);
+						float x_transform = (Pos.x_y[posI].x); // x = B + ( C - A ), A is the point in exemplar, C is the center, B is the keyPoint in target image
+						float y_transform = (Pos.x_y[posI].y);
 						//float x_transform = (targetSize.width/2 - Pos.x_y[posI].x);
 						//float y_transform = (targetSize.height/2 - Pos.x_y[posI].y);
 
@@ -468,7 +506,12 @@ int read_and_prepare( unsigned int ID,  vector<Mat> &imgData, vector<Point2f> &c
 
 	Imgread imgread( ImgPath, target_size );
 	//imgread.BeginRead( imgData, "image_", ".jpg", 1, 435, 4 );
-	imgread.BeginRead( imgData, centralPoint );
+	if(ID==2)
+		imgread.BeginRead( imgData, centralPoint );
+	else if( ID==3 ){
+		vector<FDDBMark> faceMark;
+		imgread.BeginRead( imgData, faceMark, "E:/database/originalPics/", ".jpg" );
+	}
 	return 1;
 }
 
@@ -595,15 +638,16 @@ int main()
 
 	// param
 	int show_start = 0;int show_start_t = 0;
-	Size2i show_size = Size2i(10, 6);
+	Size2i show_size = Size2i(11, 6);
 	BowVocParams params;
 	// read image
 	vector<Mat> imgData;
 	vector<Point2f> centralPoint;
-	read_and_prepare( 2, imgData, centralPoint, params );
+	read_and_prepare( 3, imgData, centralPoint, params );
 	//read_and_prepare( 1, imgData, params );
 	// build or load Vocabulary
 	BowVocabulary bowVocab;
+	bowVocab.setting( params.targetSize , Point2f( params.targetSize.width/2, params.targetSize.height/2 ) );
 	vector<Mat> imgData2 = imgData;
 	get_vocabulary( imgData2, bowVocab, params );
 
@@ -615,40 +659,21 @@ int main()
 	CV_Assert( bowVocab.IsLoadCorecct() );
 	// test in target image
 	bowVocab.trainFlaan();
-	Mat target_img = imread( "D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/image_0030.jpg" );
+	//Mat target_img = imread( "D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/image_0030.jpg" );
+	/*Mat target_img = imread("E:/database/originalPics/2002/08/04/big/img_769.jpg");
 	//Mat target_img = imread( "E:/database/originalPics/2003/05/03/big/img_559.jpg" );
 	//cout << target_img.size() << endl;
 	Mat VotingMap; target_img.copyTo( VotingMap ); 
-	Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
-	Mat BoxMap; target_img.copyTo( BoxMap );
+	//Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
+	//Mat BoxMap; target_img.copyTo( BoxMap );
 	VotingMap = 0.3 * VotingMap; // For a clearly shown
 	//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
 	if( !match_a_new_image( target_img, VotingMap, bowVocab, params ) )
 		cout << "The Matcher need be trained first!" << endl;
 	imshow( "targetImage", target_img );
 	resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
-	imshow( "VotingMap", VotingMap );
-
-	// heatMap
-	//vector<Point> faceCentral;
-	
-	//double minV, maxV;
-	//Point minP, maxP;
-	//minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
-	//float alpha = 255 / (float)(maxV-minV);
-	//VotingHeatMap = alpha * VotingHeatMap;
-	//imshow( "HeatMap", VotingHeatMap );
-
-	//get_heatMap( VotingHeatMap, faceCentral );
-	//minP, maxP;
-	//minMaxLoc(VotingHeatMap, &minV, &maxV, &minP, &maxP );   cout << maxV << endl; cout << maxP << endl;
-	//alpha = 255 / (float)(maxV-minV);
-	//VotingHeatMap = alpha * VotingHeatMap;
-	//imshow( "HeatMap2", VotingHeatMap );
-
-	// draw box
-	//circle(BoxMap,faceCentral[0],40,Scalar(0,255,0));
-	//imshow( "BoxMap", BoxMap );
+	imshow( "VotingMap", VotingMap );*/
+	match_a_set( "E:/database/FDDB/FDDB-folds/FDDB-fold-01.txt", "E:/database/originalPics/", ".jpg", bowVocab, params );
 
 	RoundShow( imgData, show_start, show_size, bowVocab );
 	//RoundShow( imgData, show_start, show_size);
