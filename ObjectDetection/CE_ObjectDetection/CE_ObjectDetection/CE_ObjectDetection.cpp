@@ -76,11 +76,115 @@ void MouseSelect( Mat imgdata, Rect &SelectArea ){
 	SelectArea = select;
 } 
 
+int ManualAnnotation( int classID, int method, string file_path, int begin_index, int stopPoint ){
+	// This function is used to annotation target object by manual
+	// method: 1 for read in by path in file
+	// output path
+	string output_path = "D:/c_lab/Data_base/face_final/color/";
+	// new ddf
+	DDFile fs( "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/facePath2.ddf", "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/faceIndex2.ddf" );
+	if( fs.Init() )
+		cout << "Loading succeed." << endl;
+	else{
+		cout << "Loading failed." << endl;
+	}
+	//建立窗口
+    namedWindow("Select_figure");//显示视频原图像的窗口
+	//捕捉鼠标
+	setMouseCallback( "Select_figure",onMouse,0);
+	// Loop, for each image in database
+	int image_i=begin_index-1;
+	int image_n = 0; // This for real stop point
+	if( method == 1 ){
+		// base path
+		string basePath = "E:/database/originalPics/";
+		string format = ".jpg";
+		// open file
+		fstream file;
+		file.open( file_path, ios::in );
+		if(!file){
+			cout<< endl << "Error: Bad path to ddf file." << endl;
+			return -1;
+		}
+		// temp
+		string line;
+		Mat image_org;
+		while( getline( file, line ) ){
+			string imagepath = basePath + line + format;
+			image_n++;
+			if( image_n>stopPoint ){ // The last stop point
+				bool IsAllFaceMarked = false;
+				Mat imgdata = imread( imagepath );
+				Mat imgTemp = imgdata.clone();
+				Mat imgTemp2 = imgdata.clone();
+				while(!IsAllFaceMarked){ // Untill all faces in this image had been marked
+					bool continueEn = true;
+					// Load in images
+					//cout << imagepath << endl;
+					Rect SelectArea;
+					while(1){
+						if( select_flag ){
+							MouseSelect( imgdata, SelectArea ); // This function will not return until select_flag become false
+							imgTemp = imgTemp2.clone();
+							rectangle(imgTemp,SelectArea,Scalar(0,0,255),3,8,0);
+						}
+						imshow("Select_figure",imgTemp);
+						int c;
+						c = waitKey(30)&0xFF;
+						if(c == 'p'){
+							IsAllFaceMarked = true;
+							break;
+						}
+						else if( c=='o' ){ // add a new face
+							imgTemp2 = imgTemp.clone();
+							break;
+						}
+						else if( c=='l' ){ // delete one
+							continueEn = false;
+							break;
+						}
+						else if( c=='k' ){ // skip this figure
+							continueEn = false;
+							IsAllFaceMarked = true;
+							break;
+						}
+					}
+					if( continueEn ){
+						image_i++;
+						// write image
+						Mat imgOut = imgdata( SelectArea );
+						// Trans everything to string
+						stringstream ss1;
+						ss1<<image_i; 
+						string si = ss1.str();
+						string ImgName = output_path + si + ".jpg";
+						imwrite( ImgName, imgOut );
+						// write file
+						vector<int> imagesize; imagesize.push_back(imgOut.rows);imagesize.push_back(imgOut.cols);imagesize.push_back(3);
+						vector<float> centralPoint; centralPoint.push_back(imgOut.rows/2);centralPoint.push_back(imgOut.cols/2);
+						fs.InsertNewLine( classID, ImgName, imagesize , centralPoint ); 
+						fs.Save();
+						cout << "[" << image_n << ", " << image_i <<  "]; ";
+					}
+					//else
+						//image_i--;
+				}
+			}
+		}
+		file.close();
+	}
+	else{
+		cout << "Error: Unknown method while read in!" << endl;
+		return 0;
+	}
+	return 1;
+}
+
 int ManualAnnotation( unsigned int stopPoint ){
 	// This function is used to annotation target object by manual
 	// output path
 	string output_path = "D:/c_lab/Data_base/face_final/color/";
-	Size targetSize = Size(80, 80);
+	//Size targetSize = Size(80, 80);
 	// old ddf
 	string ddf_path = "D:/c_lab/ObjectDetection/output/facePath.ddf";
 	// new ddf
@@ -237,6 +341,40 @@ int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, Bo
 	}
 
 	
+	return 1;
+}
+
+int match_a_set(  BowVocabulary &bowVocab, BowVocParams parms ){
+	vector<string> path;
+	path.push_back("D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/");
+	Size2i target_size;
+	target_size.width = 120;
+	target_size.height= 120;
+	Imgread imgread( path, target_size );
+	vector<Mat> imgData;
+	string format = ".jpg";
+	imgread.BeginRead( imgData, "image_", format, 1, 312, 4 );
+	int n=1;
+	string imName = parms.OutPath + "VotingMap/";
+	for( int i=0; i<imgData.size(); i++ ){
+		Mat imgdata = imgData[i];
+		Mat VotingMap; imgdata.copyTo( VotingMap ); 
+		//Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
+		//Mat BoxMap; target_img.copyTo( BoxMap );
+		VotingMap = 0.3 * VotingMap; // For a clearly shown
+		//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
+		if( !match_a_new_image( imgdata, VotingMap, bowVocab, parms ) )
+			cout << "The Matcher need be trained first!" << endl;
+		resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
+		// Trans everything to string
+		stringstream ss;
+		ss<<n; n++; 
+		string si = ss.str();
+		string ImgName = imName + si + format;
+		cout << ImgName << endl;
+		if( !imwrite( ImgName, VotingMap ) )
+			cout << "Wrong with saving!" << endl;
+	}
 	return 1;
 }
 
@@ -545,6 +683,7 @@ int read_and_prepare( unsigned int ID,  vector<Mat> &imgData, BowVocParams &para
 	OutPath1 = configSettings.Read("OutPath", OutPath1);
 	OutPath2 = configSettings.Read("BOWSavePath", OutPath2);
 	params.SavePath = OutPath1 + OutPath2;
+	params.OutPath = OutPath1;
 	string OutPath3;
 	OutPath3 = configSettings.Read("SequentialFilePath", OutPath3);
 	params.SequentialFilePath = OutPath1 + OutPath3;
@@ -554,6 +693,46 @@ int read_and_prepare( unsigned int ID,  vector<Mat> &imgData, BowVocParams &para
 
 	Imgread imgread( ImgPath, target_size );
 	imgread.BeginRead( imgData, "image_", ".jpg", 1, 435, 4 );
+	return 1;
+}
+
+int read_and_prepare( unsigned int ID, BowVocParams &params ){
+	// read in the data and prepare everything for classify
+	vector<string> ImgPath;
+	Size2i target_size;
+	string temp;
+	// Trans everything to string
+	stringstream ss;
+	ss<<ID; 
+    string sID = ss.str();
+	// read from cinfig file
+	string pathName = "PS"+sID+"_path"; // positive set
+	temp = configSettings.Read(pathName, temp);
+	ImgPath.push_back( temp );
+	pathName = "NS"+sID+"_path"; // negative set
+	temp = configSettings.Read(pathName, temp);
+	ImgPath.push_back( temp );
+	pathName = "Gt"+sID+"_path"; // ground truth
+	temp = configSettings.Read(pathName, temp);
+	ImgPath.push_back( temp );
+	target_size.height = configSettings.Read("sample_sizeM", target_size.height); // target size
+	target_size.width = configSettings.Read("sample_sizeN", target_size.width);
+	params.targetSize = target_size;
+	// read in Bow Params
+	params.vocabSize = configSettings.Read("vocabSize", params.vocabSize);
+	params.memoryUse = configSettings.Read("memoryUse", params.memoryUse);
+	params.descProportion = configSettings.Read("descProportion", params.descProportion);
+	string OutPath1, OutPath2;
+	OutPath1 = configSettings.Read("OutPath", OutPath1);
+	OutPath2 = configSettings.Read("BOWSavePath", OutPath2);
+	params.SavePath = OutPath1 + OutPath2;
+	params.OutPath = OutPath1;
+	string OutPath3;
+	OutPath3 = configSettings.Read("SequentialFilePath", OutPath3);
+	params.SequentialFilePath = OutPath1 + OutPath3;
+	string OutPath4;
+	OutPath4 = configSettings.Read("InvertedFilePath", OutPath4);
+	params.InvertedFilePath = OutPath1 + OutPath4;
 	return 1;
 }
 
@@ -611,10 +790,15 @@ void RoundShow( vector<Mat> &imgData, int show_begin_num, Size2i show_size, BowV
 
 int main()  
 {   
-	/*// Annotation
-	unsigned int stopPoint = 488; // normally, it equals to " num of image in output path - num of image deleted "
-	ManualAnnotation( stopPoint );*/
-
+	bool needAnnotatio = false;
+	bool needShowExamplars = false;
+	if( needAnnotatio ){
+		// Annotation
+		int stopPoint = 39; // normally, it equals to " num of image in output path - num of image deleted "
+		//ManualAnnotation( stopPoint );
+		ManualAnnotation( 3, 1, "E:/database/FDDB/FDDB-folds/FDDB-fold-01.txt", 545, stopPoint );
+		while(1);
+	}
 	/*Rect SelectArea = Rect(0,0,0,0);
 	// Loading figure
 	Mat imgdata = imread("D:/c_lab/Data_base/MaoShu/1.jpg");
@@ -643,7 +827,10 @@ int main()
 	// read image
 	vector<Mat> imgData;
 	vector<Point2f> centralPoint;
-	read_and_prepare( 3, imgData, centralPoint, params );
+	if( needShowExamplars )
+		read_and_prepare( 2, imgData, centralPoint, params );
+	else
+		read_and_prepare( 2, params );
 	//read_and_prepare( 1, imgData, params );
 	// build or load Vocabulary
 	BowVocabulary bowVocab;
@@ -673,14 +860,16 @@ int main()
 	imshow( "targetImage", target_img );
 	resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
 	imshow( "VotingMap", VotingMap );*/
-	match_a_set( "E:/database/FDDB/FDDB-folds/FDDB-fold-01.txt", "E:/database/originalPics/", ".jpg", bowVocab, params );
-
-	RoundShow( imgData, show_start, show_size, bowVocab );
+	match_a_set( "E:/database/FDDB/FDDB-folds/FDDB-fold-02.txt", "E:/database/originalPics/", ".jpg", bowVocab, params );
+	//match_a_set(  bowVocab, params );
+	if( needShowExamplars )
+		RoundShow( imgData, show_start, show_size, bowVocab );
 	//RoundShow( imgData, show_start, show_size);
 	while(1){
 		// show
 		if( show_start_t!=show_start ){
-			RoundShow( imgData, show_start, show_size, bowVocab );
+			if( needShowExamplars )
+				RoundShow( imgData, show_start, show_size, bowVocab );
 			//RoundShow( imgData, show_start, show_size);
 			show_start_t = show_start;
 		}

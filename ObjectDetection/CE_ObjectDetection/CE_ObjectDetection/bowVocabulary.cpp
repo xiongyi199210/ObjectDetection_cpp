@@ -148,6 +148,7 @@ int VotingScore::getScore( BowMatchResult result, BowVocabulary vocabulary ){
 			int end = VotingPoints.size()-1;
 			S_fix_n=0;
 			for( int i=0; i<voting_n; i++ ){  // from the back
+				// here we change the score
 				Point2f V_i = VotingPoints[end--];
 				main_VotingPoints[keyI] += V_i;
 				float length = sqrtf( V_i.x * V_i.x + V_i.y * V_i.y );

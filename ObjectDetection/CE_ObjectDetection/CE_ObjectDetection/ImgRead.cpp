@@ -232,9 +232,11 @@ void Imgread::BeginRead( vector<Mat> &imgData, const string &str, const string &
 		string ImgName = str + str2 + si + format;
 		// read in a image
 		Mat imgTemp = imread( path[0]+ImgName );
-		if( imgTemp.size().height == 0 )
+		if( imgTemp.size().height == 0 ){
 			cout << "Error: Can't read in image at: " <<path[0]+ImgName << endl;
-		// resize to the target size
+			continue;
+		}
+		/*// resize to the target size
 		int pre_size = (int)(min( imgTemp.size().height, imgTemp.size().width ) * 0.7);
 		int row_offset = 30;
 		Range rowrange( (int)(imgTemp.size().height-pre_size)/2+row_offset, (int)(imgTemp.size().height+pre_size)/2+row_offset );
@@ -243,7 +245,8 @@ void Imgread::BeginRead( vector<Mat> &imgData, const string &str, const string &
 		//resize( imgTemp, imgTemp, sample_size );
 		imgData.push_back( imgTemp );
 		x_rate += ( (float)(imgTemp.size().width+pre_size)/2 - (float)(imgTemp.size().width-pre_size)/2 ) / (float)sample_size.width;
-		y_rate += ( (float)(imgTemp.size().height+pre_size)/2 - (float)(imgTemp.size().height-pre_size)/2 ) / (float)sample_size.height;
+		y_rate += ( (float)(imgTemp.size().height+pre_size)/2 - (float)(imgTemp.size().height-pre_size)/2 ) / (float)sample_size.height;*/
+		imgData.push_back( imgTemp );
 	}
 	//cout << x_rate << ", " << y_rate << endl;
 	x_rate /= (float)(endNum-startNum+1);
