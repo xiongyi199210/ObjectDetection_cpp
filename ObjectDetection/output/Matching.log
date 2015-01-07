@@ -1,140 +1,22 @@
-Matched ID: 0-------------
-n: 5
-O: 4
-S: 3.14561
-Voting Point[0]: ( 100.08, 106.315 )
-Voting Point[1]: ( 99.6873, 103.042 )
-Voting Point[2]: ( 98.7376, 104.825 )
-Voting Point[3]: ( 118.353, 106.9 )
-Voting Point[4]: ( 105.451, 109.382 )
-Main Voting Point: ( 104.462, 106.093 )
-Matched ID: 1-------------
-n: 1
-O: 4
-S: 0
-Voting Point[0]: ( 178.246, 128.124 )
-Main Voting Point: ( 178.246, 128.124 )
-Matched ID: 2-------------
-n: 4
-O: 4
-S: 2.41184
-Voting Point[0]: ( 143.768, 209.098 )
-Voting Point[1]: ( 152.79, 208.803 )
-Voting Point[2]: ( 124.725, 205.035 )
-Voting Point[3]: ( 158.589, 202.711 )
-Main Voting Point: ( 144.968, 206.412 )
-Matched ID: 3-------------
-n: 1
-O: 4
-S: 0
-Voting Point[0]: ( 85.299, 203.445 )
-Main Voting Point: ( 85.299, 203.445 )
-Matched ID: 4-------------
-n: 9
-O: 4
-S: 4.33625
-Voting Point[0]: ( 277.182, 306.282 )
-Voting Point[1]: ( 276.899, 311.286 )
-Voting Point[2]: ( 261.296, 305.117 )
-Voting Point[3]: ( 275.322, 305.279 )
-Voting Point[4]: ( 272.905, 305.223 )
-Voting Point[5]: ( 260.937, 273.173 )
-Voting Point[6]: ( 276.419, 312.238 )
-Voting Point[7]: ( 282.847, 315.954 )
-Voting Point[8]: ( 262.351, 316.674 )
-Main Voting Point: ( 271.795, 305.692 )
-Matched ID: 5-------------
-n: 10
-O: 4
-S: 1.87117
-Voting Point[0]: ( 207.84, 342.591 )
-Voting Point[1]: ( 207.624, 341.242 )
-Voting Point[2]: ( 208.978, 345.35 )
-Voting Point[3]: ( 214.32, 341.864 )
-Voting Point[4]: ( 217.956, 315.824 )
-Voting Point[5]: ( 211.264, 346.441 )
-Voting Point[6]: ( 178.375, 290.449 )
-Voting Point[7]: ( 205.152, 333.468 )
-Voting Point[8]: ( 196.79, 291.449 )
-Voting Point[9]: ( 195.92, 288.271 )
-Main Voting Point: ( 204.422, 323.695 )
-Matched ID: 6-------------
-n: 1
-O: 4
-S: 0
-Voting Point[0]: ( 161.634, 381.012 )
-Main Voting Point: ( 161.634, 381.012 )
-Matched ID: 7-------------
-n: 2
-O: 4
-S: -0.71292
-Voting Point[0]: ( 98.2317, 365.708 )
-Voting Point[1]: ( 69.9196, 415.327 )
-Main Voting Point: ( 84.0757, 390.517 )
-Matched ID: 8-------------
-n: 3
-O: 4
-S: 1.27864
-Voting Point[0]: ( 231.592, 358.088 )
-Voting Point[1]: ( 204.535, 375.173 )
-Voting Point[2]: ( 215.49, 373.463 )
-Main Voting Point: ( 217.206, 368.908 )
-Matched ID: 9-------------
-n: 7
-O: 4
-S: 4.97765
-Voting Point[0]: ( 167.376, 396.092 )
-Voting Point[1]: ( 166.128, 395.509 )
-Voting Point[2]: ( 170.014, 395.467 )
-Voting Point[3]: ( 168.921, 397.195 )
-Voting Point[4]: ( 166.552, 397.476 )
-Voting Point[5]: ( 172.647, 418.43 )
-Voting Point[6]: ( 165.169, 398.278 )
-Main Voting Point: ( 168.115, 399.778 )
-Matched ID: 10-------------
-n: 1
-O: 4
-S: 0
-Voting Point[0]: ( 199.143, 333.493 )
-Main Voting Point: ( 199.143, 333.493 )
-Matched ID: 11-------------
-n: 13
-O: 4
-S: 0.605866
-Voting Point[0]: ( 173.809, 59.5808 )
-Voting Point[1]: ( 180.408, 58.4766 )
-Voting Point[2]: ( 179.418, 57.04 )
-Voting Point[3]: ( 179.38, 56.3267 )
-Voting Point[4]: ( 181.81, 62.5886 )
-Voting Point[5]: ( 180.427, 61.9124 )
-Voting Point[6]: ( 175.861, 58.8372 )
-Voting Point[7]: ( 174.455, 58.3709 )
-Voting Point[8]: ( 179.681, 59.6619 )
-Voting Point[9]: ( 175.34, 56.5109 )
-Voting Point[10]: ( 187.644, 41.6502 )
-Voting Point[11]: ( 206.575, 89.3411 )
-Voting Point[12]: ( 185.095, 57.8954 )
-Main Voting Point: ( 181.531, 59.861 )
-Matched ID: 12-------------
-n: 1
-O: 4
-S: -1.19209e-007
-Voting Point[0]: ( 78.852, 64.6611 )
-Main Voting Point: ( 78.852, 64.6611 )
-Matched ID: 13-------------
-n: 5
-O: 4
-S: 1.50485
-Voting Point[0]: ( 180.526, 292.265 )
-Voting Point[1]: ( 163.023, 288.227 )
-Voting Point[2]: ( 202.523, 274.693 )
-Voting Point[3]: ( 220.401, 298.727 )
-Voting Point[4]: ( 209.588, 299.793 )
-Main Voting Point: ( 195.212, 290.741 )
-Centre Points: Total 6 Points.
-Centre[0]: ( 104.462, 106.093 )
-Centre[1]: ( 144.968, 206.412 )
-Centre[2]: ( 271.795, 305.692 )
-Centre[3]: ( 204.422, 323.695 )
-Centre[4]: ( 168.115, 399.778 )
-Centre[5]: ( 195.212, 290.741 )
+--------- T=400, Sclae=80, sample=0.1, samp_size=[120, 120], Voc_num = 1000 -------------
+Total num of face: 515
+Num of matched face: 40
+Final matched rate: 0.0776699
+--------- T=1600, Sclae=80, sample=0.1, samp_size=[120, 120], Voc_num = 1000 -------------
+Total num of face: 515
+Num of matched face: 115
+Final matched rate: 0.223301
+--------- T=1600, Sclae=80, sample=0.1, samp_size=[120, 120], Voc_num = 1000 fixed -------------
+Total num of face: 515
+Num of matched face: 116
+Final matched rate: 0.225243
+Total num of face: 515
+Num of matched face: 107
+Final matched rate: 0.207767
+--------- T=1600, Sclae=60, sample=0.1, samp_size=[120, 120], Voc_num = 1000 fixed -------------
+Total num of face: 515
+Num of matched face: 126
+Final matched rate: 0.24466
+Total num of face: 515
+Num of matched face: 130
+Final matched rate: 0.252427

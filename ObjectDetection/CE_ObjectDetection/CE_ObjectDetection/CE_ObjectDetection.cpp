@@ -80,9 +80,9 @@ int ManualAnnotation( int classID, int method, string file_path, int begin_index
 	// This function is used to annotation target object by manual
 	// method: 1 for read in by path in file
 	// output path
-	string output_path = "D:/c_lab/Data_base/face_final/color/";
+	string output_path = "D:/c_lab/Data_base/other_objects/catFace/";
 	// new ddf
-	DDFile fs( "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/facePath2.ddf", "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/faceIndex2.ddf" );
+	DDFile fs( "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/catface3.ddf", "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/catFaceIndex3.ddf" );
 	if( fs.Init() )
 		cout << "Loading succeed." << endl;
 	else{
@@ -153,6 +153,7 @@ int ManualAnnotation( int classID, int method, string file_path, int begin_index
 						image_i++;
 						// write image
 						Mat imgOut = imgdata( SelectArea );
+						Point2f CenterPoint = Point2f( SelectArea.x+SelectArea.width/2, SelectArea.y+SelectArea.height/2 );
 						// Trans everything to string
 						stringstream ss1;
 						ss1<<image_i; 
@@ -161,7 +162,7 @@ int ManualAnnotation( int classID, int method, string file_path, int begin_index
 						imwrite( ImgName, imgOut );
 						// write file
 						vector<int> imagesize; imagesize.push_back(imgOut.rows);imagesize.push_back(imgOut.cols);imagesize.push_back(3);
-						vector<float> centralPoint; centralPoint.push_back(imgOut.rows/2);centralPoint.push_back(imgOut.cols/2);
+						vector<float> centralPoint; centralPoint.push_back(CenterPoint.y);centralPoint.push_back(CenterPoint.x);
 						fs.InsertNewLine( classID, ImgName, imagesize , centralPoint ); 
 						fs.Save();
 						cout << "[" << image_n << ", " << image_i <<  "]; ";
@@ -172,6 +173,84 @@ int ManualAnnotation( int classID, int method, string file_path, int begin_index
 			}
 		}
 		file.close();
+	}
+	else if( method==2 ){
+		// base path
+		string basePath = "D:/c_lab/Data_base/MaoShu/";
+		string format = ".jpg";
+		// read in
+		int num_of_figure = atoi( file_path.c_str() );
+		for( int image_n=0; image_n<num_of_figure; image_n++ ){
+			// Trans everything to string
+			stringstream ss2;
+			ss2<<image_n; 
+			string si = ss2.str();
+			string imagepath = basePath + si + format;
+			if( image_n>stopPoint ){
+				bool IsAllFaceMarked = false;
+				Mat imgdata = imread( imagepath );
+				if( imgdata.size().width==0 )
+					continue;
+				if( imgdata.size().width >= 800 || imgdata.size().height >= 600 ){
+					resize( imgdata, imgdata, Size(800,600) );
+				}
+				Mat imgTemp = imgdata.clone();
+				Mat imgTemp2 = imgdata.clone();
+				while(!IsAllFaceMarked){ // Untill all faces in this image had been marked
+					bool continueEn = true;
+					// Load in images
+					//cout << imagepath << endl;
+					Rect SelectArea;
+					while(1){
+						if( select_flag ){
+							MouseSelect( imgdata, SelectArea ); // This function will not return until select_flag become false
+							imgTemp = imgTemp2.clone();
+							rectangle(imgTemp,SelectArea,Scalar(0,0,255),3,8,0);
+						}
+						imshow("Select_figure",imgTemp);
+						int c;
+						c = waitKey(30)&0xFF;
+						if(c == 'p'){
+							IsAllFaceMarked = true;
+							break;
+						}
+						else if( c=='o' ){ // add a new face
+							imgTemp2 = imgTemp.clone();
+							break;
+						}
+						else if( c=='l' ){ // delete one
+							continueEn = false;
+							break;
+						}
+						else if( c=='k' ){ // skip this figure
+							continueEn = false;
+							IsAllFaceMarked = true;
+							break;
+						}
+					}
+					if( continueEn ){
+						image_i++;
+						// write image
+						Mat imgOut = imgdata( SelectArea );
+						Point2f CenterPoint = Point2f( SelectArea.x+SelectArea.width/2, SelectArea.y+SelectArea.height/2 );
+						// Trans everything to string
+						stringstream ss1;
+						ss1<<image_i; 
+						string si = ss1.str();
+						string ImgName = output_path + si + ".jpg";
+						imwrite( ImgName, imgOut );
+						// write file
+						vector<int> imagesize; imagesize.push_back(imgOut.rows);imagesize.push_back(imgOut.cols);imagesize.push_back(3);
+						vector<float> centralPoint; centralPoint.push_back(CenterPoint.y);centralPoint.push_back(CenterPoint.x);
+						fs.InsertNewLine( classID, ImgName, imagesize , centralPoint ); 
+						fs.Save();
+						cout << "[" << image_n << ", " << image_i <<  "]; ";
+					}
+					//else
+						//image_i--;
+				}
+			}
+		}
 	}
 	else{
 		cout << "Error: Unknown method while read in!" << endl;
@@ -326,6 +405,49 @@ int DDFileTest( ){
 	return 1;
 }
 
+int cheak_the_answer( vector<vector<Point2f>> real_centralPoint, vector<vector<Point2f>> prob_centralPoint ){
+	//CV_Assert( real_centralPoint.size()==prob_centralPoint.size() );
+	float T = 1600;
+	int totalFace = 0;
+	int matchedFace = 0;
+	for( int i=0; i<prob_centralPoint.size(); i++ ){ // for each figure
+		auto rp = &real_centralPoint[i];
+		auto pp = &prob_centralPoint[i];
+		totalFace += int( rp->size() );
+		for( int j=0; j<rp->size(); j++ ){ // for each real face
+			Point2f real_point = rp->at(j);
+			//cout << pp->size() << endl;
+			for( int k=0; k<pp->size(); k++ ){ // for each prob face
+				Point2f prob_point = pp->at(k) - real_point;
+				//cout << real_point << endl;
+				//cout << pp->at(k) << endl;
+				//cout << prob_point.x * prob_point.x + prob_point.y * prob_point.y << ", ";
+				if( prob_point.x * prob_point.x + prob_point.y * prob_point.y < T){
+					//cout << prob_point.x * prob_point.x + prob_point.y * prob_point.y << ", ";
+					matchedFace++;
+					break;
+				}
+			}
+		}
+		//cout << endl;
+	}
+	float matchRate = float( matchedFace ) / float( totalFace );
+	// Open log file
+	string log_name = "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/Matching.log";
+	ofstream f_log;
+	f_log.open( log_name, ios::app );
+	if( !f_log.is_open() ){
+		cout << "Warning: Can't open log file" << endl;
+		return 0;
+	}
+	f_log << "Total num of face: " << totalFace << endl;
+	f_log << "Num of matched face: " << matchedFace << endl;
+	f_log << "Final matched rate: " << matchRate << endl;
+	f_log.close();
+	
+	return 1;
+}
+
 int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, BowVocParams parms ){
 	CV_Assert( imgData.size().height!=0 );
 	if( bowVocab.IsMatcherTrained() ){
@@ -333,11 +455,48 @@ int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, Bo
 		cout << "Finding discriptors..." << endl;
 		bowVocab.quantizing( imgData, result );
 		cout << "Finished! " << result.keyID.size() << " KeyPoints finded." << endl;
-		VotingScore Score;
+		VotingScore2 Score;
 		cout << "Caculating scores" << endl;
-		Score.getScore( result, bowVocab );
-		Score.saveScore( parms, result );
-		Score.drawVoting( VotingMap, result );
+		Score.getVotingRect( result, 10000 );
+		Score.drawVotingRect( result, VotingMap );
+		vector<Point2f> ProbCenter;
+		Score.getProbCenter( bowVocab, result, ProbCenter, 0.1 );
+		for( int i=0; i< ProbCenter.size(); i++ ){
+			circle( VotingMap, ProbCenter[i], 40, Scalar(0,0,255), 4 );
+		}
+		VotingScore a;
+		a.getScore( result, bowVocab );
+		a.drawVoting( VotingMap, result );
+		//Score.getScore( result, bowVocab );
+		//Score.saveScore( parms, result );
+		//Score.drawVoting( VotingMap, result );
+	}
+
+	
+	return 1;
+}
+
+int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, BowVocParams parms, vector<Point2f> &ProbCenter ){
+	CV_Assert( imgData.size().height!=0 );
+	if( bowVocab.IsMatcherTrained() ){
+		BowMatchResult result;
+		cout << "Finding discriptors..." << endl;
+		bowVocab.quantizing( imgData, result );
+		cout << "Finished! " << result.keyID.size() << " KeyPoints finded." << endl;
+		VotingScore2 Score;
+		cout << "Caculating scores" << endl;
+		Score.getVotingRect( result, 2600 );
+		Score.drawVotingRect( result, VotingMap );
+		Score.getProbCenter( bowVocab, result, ProbCenter, 0.1 );
+		for( int i=0; i< ProbCenter.size(); i++ ){
+			circle( VotingMap, ProbCenter[i], 40, Scalar(0,0,255), 4 );
+		}
+		VotingScore a;
+		a.getScore( result, bowVocab );
+		a.drawVoting( VotingMap, result );
+		//Score.getScore( result, bowVocab );
+		//Score.saveScore( parms, result );
+		//Score.drawVoting( VotingMap, result );
 	}
 
 	
@@ -346,14 +505,16 @@ int match_a_new_image( Mat &imgData, Mat &VotingMap, BowVocabulary &bowVocab, Bo
 
 int match_a_set(  BowVocabulary &bowVocab, BowVocParams parms ){
 	vector<string> path;
-	path.push_back("D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/");
+	//path.push_back("D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/");
+	path.push_back("D:/c_lab/Data_base/MaoShu/");
 	Size2i target_size;
 	target_size.width = 120;
 	target_size.height= 120;
 	Imgread imgread( path, target_size );
 	vector<Mat> imgData;
 	string format = ".jpg";
-	imgread.BeginRead( imgData, "image_", format, 1, 312, 4 );
+	//imgread.BeginRead( imgData, "image_", format, 1, 312, 4 );
+	imgread.BeginRead( imgData, "", format, 1, 312, 0 );
 	int n=1;
 	string imName = parms.OutPath + "VotingMap/";
 	for( int i=0; i<imgData.size(); i++ ){
@@ -378,7 +539,7 @@ int match_a_set(  BowVocabulary &bowVocab, BowVocParams parms ){
 	return 1;
 }
 
-int match_a_set( string path, string basePath, string format, BowVocabulary &bowVocab, BowVocParams parms ){
+int match_a_set( string path, string basePath, string format, BowVocabulary &bowVocab, BowVocParams parms, vector<vector<Point2f>> &centralPoint, vector<vector<Point2f>> &real_centralPoint ){
 	// open ddr file
 	fstream file;
 	file.open( path, ios::in );
@@ -394,13 +555,21 @@ int match_a_set( string path, string basePath, string format, BowVocabulary &bow
 	while( getline( file, line ) ){
 		string imagepath = basePath + line + format;
 		Mat imgdata = imread( imagepath );
+		//resize( imgdata, imgdata, imgdata.size()/2 );
 		Mat VotingMap; imgdata.copyTo( VotingMap ); 
 		//Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
 		//Mat BoxMap; target_img.copyTo( BoxMap );
 		VotingMap = 0.3 * VotingMap; // For a clearly shown
 		//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
-		if( !match_a_new_image( imgdata, VotingMap, bowVocab, parms ) )
+		vector<Point2f> ProbPoints;
+		if( !match_a_new_image( imgdata, VotingMap, bowVocab, parms, ProbPoints ) )
 			cout << "The Matcher need be trained first!" << endl;
+		//cout << "Points Size: " << ProbPoints.size() << endl;
+		centralPoint.push_back(ProbPoints);
+		auto p = &real_centralPoint[n-1];
+		for( int i=0; i<p->size(); i++ ){
+			circle( VotingMap, p->at(i), 40, Scalar(0,255,0), 3 );
+		}
 		resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
 		// Trans everything to string
 		stringstream ss;
@@ -546,7 +715,7 @@ int get_invertedFile( vector<Mat> &imgData, BowVocabulary &bowVocab, BowVocParam
 	}
 	else
 		cout << "Loading Inverted File Successfully!" << endl;
-	
+	bowVocab.initInvertedFile();
 	return 1;
 }
 
@@ -647,8 +816,65 @@ int read_and_prepare( unsigned int ID,  vector<Mat> &imgData, vector<Point2f> &c
 	if(ID==2)
 		imgread.BeginRead( imgData, centralPoint );
 	else if( ID==3 ){
-		vector<FDDBMark> faceMark;
+		vector<vector<FDDBMark>> faceMark;
 		imgread.BeginRead( imgData, faceMark, "E:/database/originalPics/", ".jpg" );
+	}
+	return 1;
+}
+
+int read_and_prepare( unsigned int ID,  vector<Mat> &imgData, vector<vector<Point2f>> &centralPoint, BowVocParams &params ){
+	// read in the data and prepare everything for classify
+	vector<string> ImgPath;
+	Size2i target_size;
+	string temp;
+	// Trans everything to string
+	stringstream ss;
+	ss<<ID; 
+    string sID = ss.str();
+	// read from cinfig file
+	string pathName = "PS"+sID+"_path"; // positive set
+	temp = configSettings.Read(pathName, temp);
+	ImgPath.push_back( temp );
+	pathName = "NS"+sID+"_path"; // negative set
+	temp = configSettings.Read(pathName, temp);
+	ImgPath.push_back( temp );
+	pathName = "Gt"+sID+"_path"; // ground truth
+	temp = configSettings.Read(pathName, temp);
+	ImgPath.push_back( temp );
+	target_size.height = configSettings.Read("sample_sizeM", target_size.height); // target size
+	target_size.width = configSettings.Read("sample_sizeN", target_size.width);
+	params.targetSize = target_size;
+	// read in Bow Params
+	params.vocabSize = configSettings.Read("vocabSize", params.vocabSize);
+	params.memoryUse = configSettings.Read("memoryUse", params.memoryUse);
+	params.descProportion = configSettings.Read("descProportion", params.descProportion);
+	string OutPath1, OutPath2;
+	OutPath1 = configSettings.Read("OutPath", OutPath1);
+	OutPath2 = configSettings.Read("BOWSavePath", OutPath2);
+	params.SavePath = OutPath1 + OutPath2;
+	params.OutPath = OutPath1;
+	string OutPath3;
+	OutPath3 = configSettings.Read("SequentialFilePath", OutPath3);
+	params.SequentialFilePath = OutPath1 + OutPath3;
+	string OutPath4;
+	OutPath4 = configSettings.Read("InvertedFilePath", OutPath4);
+	params.InvertedFilePath = OutPath1 + OutPath4;
+
+	Imgread imgread( ImgPath, target_size );
+	//imgread.BeginRead( imgData, "image_", ".jpg", 1, 435, 4 );
+	if(ID==2)
+		;//imgread.BeginRead( imgData, centralPoint );
+	else if( ID==3 ){
+		vector<vector<FDDBMark>> faceMark;
+		imgread.BeginRead( imgData, faceMark, "E:/database/originalPics/", ".jpg" );
+		for(int i=0; i<faceMark.size(); i++){
+			auto p= &faceMark[i];
+			vector<Point2f> temp;
+			for(int j=0; j<p->size(); j++){
+				temp.push_back( Point2f( p->at(j).center_x, p->at(j).center_y ) );
+			}
+			centralPoint.push_back( temp );
+		}
 	}
 	return 1;
 }
@@ -780,6 +1006,7 @@ void RoundShow( vector<Mat> &imgData, int show_begin_num, Size2i show_size, BowV
 			bowVocab.getExemplarKeyPoints(index, centers);
 			for( int k=0; k<centers.size(); k++ ){
 				circle(all_rect,centers[k],5,Scalar(255,0,0));
+				line( all_rect, centers[k], Point2f(target_size.width/2, target_size.height/2), Scalar(255, 255, 255) );
 			}
 		}
 	}
@@ -791,12 +1018,14 @@ void RoundShow( vector<Mat> &imgData, int show_begin_num, Size2i show_size, BowV
 int main()  
 {   
 	bool needAnnotatio = false;
-	bool needShowExamplars = false;
+	bool needShowExamplars = true;
+	bool IfMatchOneFigure = false;
 	if( needAnnotatio ){
 		// Annotation
-		int stopPoint = 39; // normally, it equals to " num of image in output path - num of image deleted "
+		int stopPoint = 154; // normally, it equals to " num of image in output path - num of image deleted "
 		//ManualAnnotation( stopPoint );
-		ManualAnnotation( 3, 1, "E:/database/FDDB/FDDB-folds/FDDB-fold-01.txt", 545, stopPoint );
+		//ManualAnnotation( 3, 1, "E:/database/FDDB/FDDB-folds/FDDB-fold-01.txt", 545, stopPoint );
+		ManualAnnotation( 3, 2, "219", 149, stopPoint );
 		while(1);
 	}
 	/*Rect SelectArea = Rect(0,0,0,0);
@@ -826,9 +1055,10 @@ int main()
 	BowVocParams params;
 	// read image
 	vector<Mat> imgData;
-	vector<Point2f> centralPoint;
+	vector<vector<Point2f>> real_centralPoint;
+	vector<vector<Point2f>> prob_centralPoint;
 	if( needShowExamplars )
-		read_and_prepare( 2, imgData, centralPoint, params );
+		read_and_prepare( 3, imgData, real_centralPoint, params );
 	else
 		read_and_prepare( 2, params );
 	//read_and_prepare( 1, imgData, params );
@@ -846,24 +1076,32 @@ int main()
 	CV_Assert( bowVocab.IsLoadCorecct() );
 	// test in target image
 	bowVocab.trainFlaan();
-	//Mat target_img = imread( "D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/image_0030.jpg" );
-	/*Mat target_img = imread("E:/database/originalPics/2002/08/04/big/img_769.jpg");
-	//Mat target_img = imread( "E:/database/originalPics/2003/05/03/big/img_559.jpg" );
-	//cout << target_img.size() << endl;
-	Mat VotingMap; target_img.copyTo( VotingMap ); 
-	//Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
-	//Mat BoxMap; target_img.copyTo( BoxMap );
-	VotingMap = 0.3 * VotingMap; // For a clearly shown
-	//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
-	if( !match_a_new_image( target_img, VotingMap, bowVocab, params ) )
-		cout << "The Matcher need be trained first!" << endl;
-	imshow( "targetImage", target_img );
-	resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
-	imshow( "VotingMap", VotingMap );*/
-	match_a_set( "E:/database/FDDB/FDDB-folds/FDDB-fold-02.txt", "E:/database/originalPics/", ".jpg", bowVocab, params );
-	//match_a_set(  bowVocab, params );
-	if( needShowExamplars )
+	if( IfMatchOneFigure ){
+		//Mat target_img = imread( "D:/cloud_work/Baidu_cloud/data/Object/101_ObjectCategories/Faces/image_0030.jpg" );
+		Mat target_img = imread("E:/database/originalPics/2002/08/13/big/img_723.jpg");
+
+		//Mat target_img = imread( "E:/database/originalPics/2003/05/03/big/img_559.jpg" );
+		//cout << target_img.size() << endl;
+		Mat VotingMap; target_img.copyTo( VotingMap ); 
+		//Mat VotingHeatMap = Mat::zeros( target_img.rows, target_img.cols, CV_32FC1);
+		//Mat BoxMap; target_img.copyTo( BoxMap );
+		VotingMap = 0.3 * VotingMap; // For a clearly shown
+		//if( !match_a_new_image( target_img, VotingMap, VotingHeatMap, bowVocab, params ) )
+		if( !match_a_new_image( target_img, VotingMap, bowVocab, params ) )
+			cout << "The Matcher need be trained first!" << endl;
+		imshow( "targetImage", target_img );
+		resize( VotingMap, VotingMap, Size( 2*VotingMap.cols, 2*VotingMap.rows ) );
+		imshow( "VotingMap", VotingMap );
+	}
+	else{
+		match_a_set( "E:/database/FDDB/FDDB-folds/FDDB-fold-01.txt", "E:/database/originalPics/", ".jpg", bowVocab, params, prob_centralPoint, real_centralPoint );
+		//match_a_set( "E:/database/MyFace/at.txt", "E:/database/", ".jpg", bowVocab, params, prob_centralPoint, real_centralPoint );
+		//match_a_set(  bowVocab, params );
+	}
+	if( needShowExamplars ){
+		cheak_the_answer( real_centralPoint,prob_centralPoint );
 		RoundShow( imgData, show_start, show_size, bowVocab );
+	}
 	//RoundShow( imgData, show_start, show_size);
 	while(1){
 		// show

@@ -55,7 +55,7 @@ void MyResize( Mat &imgdata, Size2i sample_size ){
 	return;
 }
 
-int Imgread::BeginRead( vector<Mat> &imgData, vector<FDDBMark> &faceMark, const string basePath, const string format ){
+int Imgread::BeginRead( vector<Mat> &imgData, vector<vector<FDDBMark>> &faceMark, const string basePath, const string format ){
 	cout << "Start reading database." << endl;
 	// open ddr file
 	fstream file;
@@ -70,6 +70,7 @@ int Imgread::BeginRead( vector<Mat> &imgData, vector<FDDBMark> &faceMark, const 
 	int faceNum;
 	int nowReadIn = 1; // what is read in now, 1 for image path, 2 for face number, 3 for face mark
 	// Using state machine
+	vector<FDDBMark> face_temp;
 	while( getline( file, line ) ){
 		if( nowReadIn==1 ){ // If now read in image path
 			string imagepath = basePath + line + format;
@@ -91,7 +92,7 @@ int Imgread::BeginRead( vector<Mat> &imgData, vector<FDDBMark> &faceMark, const 
 			getline(liness, face, ' '); mark.angle = atof( face.c_str() );
 			getline(liness, face, ' '); mark.center_x = atof( face.c_str() );
 			getline(liness, face, ' '); mark.center_y = atof( face.c_str() );
-			faceMark.push_back( mark );
+			face_temp.push_back( mark );
 			//cout << mark.major_axis_radius << ", " << mark.minor_axis_radius << ", " << mark.angle << endl;
 			// Segment the face area
 			Rect faceArea;
@@ -105,8 +106,11 @@ int Imgread::BeginRead( vector<Mat> &imgData, vector<FDDBMark> &faceMark, const 
 			//cout << "Resize End" << endl;
 			imgData.push_back( imageData );
 			faceNum--;
-			if( faceNum==0 )  // If all face mark had been loaded
+			if( faceNum==0 ){  // If all face mark had been loaded
+				faceMark.push_back( face_temp );
+				face_temp.clear();
 				nowReadIn = 1;
+			}
 		}
 		else{	// Undefined
 			cout << "Error: Undefined message loaded while read in ddf file!" << endl;
@@ -236,6 +240,19 @@ void Imgread::BeginRead( vector<Mat> &imgData, const string &str, const string &
 			cout << "Error: Can't read in image at: " <<path[0]+ImgName << endl;
 			continue;
 		}
+		Size t_size = Size(800,600);
+		if( imgTemp.size().width >= t_size.width ){
+			float alpha = t_size.width/float(imgTemp.size().width);
+			int height = int(float(imgTemp.size().height)*alpha);
+			//cout << height << endl;
+			resize( imgTemp, imgTemp, Size(t_size.width,height) );
+		}
+		else if( imgTemp.size().height >= t_size.height ){
+			float alpha = t_size.height/float(imgTemp.size().height);
+			int width = int(float(imgTemp.size().width)*alpha);
+			//cout << width << endl;
+			resize( imgTemp, imgTemp, Size(width,t_size.height) );
+		}
 		/*// resize to the target size
 		int pre_size = (int)(min( imgTemp.size().height, imgTemp.size().width ) * 0.7);
 		int row_offset = 30;
@@ -246,6 +263,7 @@ void Imgread::BeginRead( vector<Mat> &imgData, const string &str, const string &
 		imgData.push_back( imgTemp );
 		x_rate += ( (float)(imgTemp.size().width+pre_size)/2 - (float)(imgTemp.size().width-pre_size)/2 ) / (float)sample_size.width;
 		y_rate += ( (float)(imgTemp.size().height+pre_size)/2 - (float)(imgTemp.size().height-pre_size)/2 ) / (float)sample_size.height;*/
+		
 		imgData.push_back( imgTemp );
 	}
 	//cout << x_rate << ", " << y_rate << endl;

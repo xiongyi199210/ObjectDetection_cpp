@@ -27,6 +27,7 @@ public:
 class keyPositions{
 public:
 	vector<Point2f> x_y;
+	vector<float> k; // k for each line, (xj-xi) is set to 1 if it is zero.
 };
 
 // Matching result, including: keypoints position; keyID
@@ -108,6 +109,8 @@ public:
 	int getTFByIndex( size_t index, TeamFrequency &TF );
 	int getPositionByIndex( size_t index, keyPositions &TF );
 	int getPositionByIndex( int index, vector<Point2f> &Pos, int &n );
+	int getLineByIndex( int index, vector<float> &a, vector<float> &b, vector<float> &c, vector<float> &_a, vector<float> &_b, vector<float> &_c, Point2f keyPos );
+	int initInvertedFile(  ); // get k or something else dosen't saved in disk
 protected:                  
 	Mat Vocabulary;   
 	// Using AKAZE feature
@@ -137,6 +140,31 @@ private:
 	vector<int> num; // num of points belong to this center
 	float T_distance;
 	int max_num;
+};
+
+class VotingScore2{
+public:
+	int getVotingRect( BowMatchResult result, int range );
+	int drawVotingRect( BowMatchResult result, Mat &VotingMap );
+	int getProbCenter( BowVocabulary vocabulary, BowMatchResult result, vector<Point2f> &ProbCenter, float sample_rate );
+private:
+	vector<Rect> VotingRect; // The possible rect of face center
+	vector<int> labels; // Which rect does each point belong to 
+	vector<int> num_of_point; // Num of point belongs to one rect
+};
+
+// this struct just for partition function in votingScore2
+struct PointLike{
+        PointLike(int thresh){
+                this->thresh = thresh;
+        }
+        bool operator()(cv::Point p1,cv::Point p2){
+                int x = int(p1.x - p2.x);
+                int y = int(p1.y - p2.y);
+                //return x*x+y*y <=thresh*thresh;
+				return x*x+y*y <=thresh;
+        }
+        int thresh;
 };
 
 class VotingScore{

@@ -1,7 +1,6 @@
 // bowVocabulary.cpp
 #include "stdafx.h"
 #include "bowVocabulary.h"
-#
 
 #define DEBUG_DESC_PROGRESS
 
@@ -12,6 +11,154 @@
 using namespace cv;
 using namespace std;
 
+// VotingScore2:
+int VotingScore2::getVotingRect( BowMatchResult result, int range ){
+	// get the possible rect of face center, by simple Hierarchical Clustering Algorithms;
+	//vector<int> labels;
+	PointLike plike(range);
+	int count;
+	count = partition(result.queryMatched,labels,plike); // count is the num of labels
+	VotingRect.resize(count);VotingRect.shrink_to_fit();
+	num_of_point.resize(count);num_of_point.shrink_to_fit();
+	Rect max_Rect( 65530, 65530, 0, 0 );
+	while(count>0){ // init
+		VotingRect[--count] = max_Rect;
+	}
+	for( int i=0; i<result.queryMatched.size(); i++ ){ // finding the rect
+		int x = int(result.queryMatched[i].x);
+		int y = int(result.queryMatched[i].y);
+		// Rect
+		int n = labels[i];
+		auto point = VotingRect[n];
+		VotingRect[n].x = min( point.x, x );
+		VotingRect[n].y = min( point.y, y );
+		VotingRect[n].width = max( point.width, x-point.x );
+		VotingRect[n].height = max( point.height, y-point.y );
+		num_of_point[n]++;
+	}
+	return 1;
+}
+
+int VotingScore2::getProbCenter( BowVocabulary vocabulary, BowMatchResult result, vector<Point2f> &ProbCenter, float sample_rate ){
+	// Get the probably center by simply check the cross point
+	//FileStorage fs( "E:/GitHub/ObjectDetection_cpp/ObjectDetection/output/cah/L_P.xml", FileStorage::WRITE );
+    //if( !fs.isOpened() ){
+	//	cout << "Saving Error!" << endl;
+    //    return 0;
+    //}
+	for( int rect_i=0; rect_i<VotingRect.size(); rect_i++ ){ // Only good rect need be consider
+		if( VotingRect[rect_i].width ==0 || VotingRect[rect_i].height ==0 )
+			continue;
+		// Check the cross points
+		// step1, caculating L
+		vector<float> L_a, L_b, L_c, L_2a, L_2b, L_2c;
+		for( int keyPoint_i=0; keyPoint_i<labels.size(); keyPoint_i++ ){
+			if( labels[keyPoint_i]==rect_i ){ // for each keypoints belong to this rect
+				int keyID = result.keyID[keyPoint_i];
+				vocabulary.getLineByIndex( keyID, L_a, L_b, L_c, L_2a, L_2b, L_2c, result.queryMatched[keyPoint_i] );
+			}
+		}
+		// trans vector to Mat
+		Mat L(L_a.size(), 3, CV_32FC1);
+		Mat L_T(L_a.size(), 3, CV_32FC1);
+		Range r( 0, L_a.size()-1 );
+		Mat( L_a ).copyTo(L.col(0)); // I don't know why, but here must be a deep copy of vector data.
+		//Mat( L_b ).copyTo(L.col(1));
+		//Mat( L_a.size(), 1, CV_32FC1, -1 ).copyTo(L.col(2));
+		Mat( L_b ).copyTo(L.col(1));
+		Mat( L_c ).copyTo(L.col(2));
+		// L_T
+		Mat( L_b ).copyTo(L_T.col(0));
+		Mat( L_2b ).copyTo(L_T.col(1));
+		Mat( L_2c ).copyTo(L_T.col(2));
+		//cout << "L:--------------------------------" << endl;
+		//fs << "L" << L ;
+		//cout << L << endl;
+		// step2. caculating P
+		vector<float> xp, yp;
+		// x
+		float step = VotingRect[rect_i].width * sample_rate;
+		float x_begin = float( VotingRect[rect_i].x ), x_end = float( VotingRect[rect_i].x + VotingRect[rect_i].width );
+		//cout << "Vector: --------------------" << endl;
+		while( x_begin <= x_end ){
+			xp.push_back( x_begin );
+			//cout << x_begin << ", ";
+			x_begin += step;
+		}
+		//cout << endl;
+		// y
+		step = VotingRect[rect_i].height * sample_rate;
+		float y_begin = float( VotingRect[rect_i].y ), y_end = float( VotingRect[rect_i].y + VotingRect[rect_i].height );
+		while( y_begin <= y_end ){
+			yp.push_back( y_begin );
+			//cout << y_begin << ", ";
+			y_begin += step;
+		}
+		//cout << endl;
+		int repeat_n = yp.size();
+		Mat P(3, xp.size()*yp.size(), CV_32FC1 );
+		Range rp( 0, xp.size() );
+		for( int i=0; i<repeat_n; i++ ){
+			Mat temp = Mat( xp ).t();
+			//cout << Mat( xp ).size() << P.row(0).colRange( rp ).size() << ", " << xp.size() << endl ;
+			temp.copyTo( P.row(0).colRange( rp ) );
+			Mat( 1, xp.size(), CV_32FC1, yp[i] ).copyTo( P.row(1).colRange( rp ) );
+			rp = rp + xp.size();
+		}
+		Mat( 1, P.cols, CV_32FC1, 1 ).copyTo( P.row(2) );
+		//cout << "P: ----------------------------------" << endl;
+		//fs << "P" << P ;
+		//cout << P << endl;
+		// multiplication cross
+		Mat R = (L * P).t();
+		Mat R2 = (L_T * P).t();
+		//cout << "R: ----------------------------------" << endl;
+		//fs << "R" << R ;
+		//cout << R << endl;
+		// find the min point
+		float min_p = 65530;
+		int min_p_index = 0;
+		for( int j=0; j<R.rows; j++ ){
+			auto p = R.ptr<float>(j);
+			auto p2 = R2.ptr<float>(j);
+			float add_temp=0;
+			int n = 0;
+			for( int i=0; i<R.cols; i++ ){
+				if( p2[i]>=0  ){ // Only points in direct should be considered
+					add_temp += abs(p[i]);
+					n++;
+				}
+			}
+			add_temp = add_temp / float( n );
+			float alpha = 1-float(n)/float(R.rows);
+			//add_temp = expf(alpha)*add_temp;
+			add_temp = powf(4,alpha)*add_temp;
+			if( add_temp<min_p ){
+				min_p = add_temp;
+				min_p_index = j;
+			}
+		    //cout << add_temp << ", ";
+		}
+		//cout << endl;
+		ProbCenter.push_back( Point2f( P.at<float>( 0, min_p_index ), P.at<float>( 1, min_p_index ) ) );
+		cout << "Score = "<< min_p << endl;
+		//cout << min_p_index << endl;
+		cout << "Position: " << ProbCenter[ProbCenter.size()-1] << endl;
+	}
+	
+	return 1;
+}
+
+int VotingScore2::drawVotingRect( BowMatchResult result, Mat &VotingMap ){
+	for( int i=0; i<VotingRect.size(); i++ ){
+		//cout << VotingRect[i] << endl;
+		rectangle(VotingMap,VotingRect[i],Scalar(255,0,0),3,8,0);
+	}
+	for( int i=0; i<result.queryMatched.size(); i++ ){
+		circle( VotingMap, result.queryMatched[i], 3, Scalar(0,125,125) );
+	}
+	return 1;
+}
 
 // Face Center
 void ClustingCenter::get_max_center( float scale, vector<int> &index ){
@@ -83,7 +230,7 @@ void VotingScore::drawVoting( Mat &VotingMap, BowMatchResult result ){
 			vot_i += n[keyI];
 		}
 	}
-	// centre points
+	/*// centre points
 	for( int i=0; i<CentrePoints.size(); i++ ){
 		circle(VotingMap,CentrePoints[i],7,Scalar(0,255,0));
 	}
@@ -92,7 +239,7 @@ void VotingScore::drawVoting( Mat &VotingMap, BowMatchResult result ){
 	Centre.get_max_center( 0.8, index );
 	for( int i=0; i<index.size(); i++ ){
 		circle(VotingMap,CentrePoints[index[i]],40,Scalar(255,0,139), 5);
-	}
+	}*/
 	return;
 }
 
@@ -220,6 +367,23 @@ int BowVocabulary::trainFlaan( ){
 	return 1;
 }
 // Invented File
+int BowVocabulary::initInvertedFile(  ){
+	// get k or something else dosen't saved in disk
+	// get k for each voting vectors
+	cout << "Caculating: S" << endl;
+	for( int i=0; i<invertedFile.positions.size(); i++ ){
+		auto pos = &invertedFile.positions[i];
+		int num = pos->x_y.size();
+		pos->k.resize( num ); pos->k.shrink_to_fit();
+		for( int j=0; j<num; j++ ){
+			Point2f votingVec = pos->x_y[j];
+			float S = sqrtf( votingVec.x*votingVec.x + votingVec.y*votingVec.y );
+			pos->k[j] = (S==0) ? 1920.0 : 1/S;
+		}
+	}
+	return 1;
+}
+
 int BowVocabulary::getTFByIndex( size_t index, TeamFrequency &TF ){
 	if( index<Vocabulary.rows ){
 		TF = invertedFile.teamFrequency[index];
@@ -243,6 +407,31 @@ int BowVocabulary::getPositionByIndex( int index, vector<Point2f> &Pos, int &n )
 		auto point = invertedFile.positions[index].x_y;
 		Pos.insert( Pos.end(), point.begin(), point.end() );
 		n = point.size();
+	}
+	else
+		return 0;
+	return 1;
+}
+
+int BowVocabulary::getLineByIndex( int index, vector<float> &a, vector<float> &b, vector<float> &c, vector<float> &_a, vector<float> &_b, vector<float> &_c, Point2f keyPos ){
+	if( index<Vocabulary.rows ){
+		//Pos = invertedFile.positions[index];
+		auto point = invertedFile.positions[index];
+		for( int i=0; i<point.k.size(); i++ ){
+			float x_v_i =  -point.x_y[i].x; // the x_y is already a vector, not point
+			float y_v_i =  -point.x_y[i].y;
+			//float temp = 1/sqrt(x_v_i*x_v_i+y_v_i*y_v_i);
+			float temp = point.k[i];
+			//a.push_back( y_v_i*temp );
+			//b.push_back( -x_v_i*temp );
+			//c.push_back( x_v_i*(keyPos.y - point.k[i] * keyPos.x)*temp );
+			a.push_back( y_v_i*temp );
+			b.push_back( -x_v_i*temp );
+			c.push_back( (x_v_i*keyPos.y - y_v_i*keyPos.x )*temp );
+			_a.push_back( -x_v_i );
+			_b.push_back( -y_v_i );
+			_c.push_back( y_v_i*keyPos.y + x_v_i*keyPos.x );
+		}
 	}
 	else
 		return 0;
